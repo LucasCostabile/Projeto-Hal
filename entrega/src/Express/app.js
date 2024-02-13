@@ -1,9 +1,11 @@
-const express = require("express");
 
-const path = require("path");
+import express from "express";
 
-const productsRoutes = require("../routes/productsRoute.ts");
-const cartsRoutes = require("../routes/cartsRoute.ts");
+//const path = require("path");
+
+import prodRouter from "../routes/products.routes.js"
+//import cartsRoutes from "../routes/carts.routes.js"
+
 
 const app = express();
 //
@@ -15,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // app.use("/static", express.static(staticPath));
 
-app.use("/products", productsRoutes);
-app.use("/carts", cartsRoutes);
+app.use("/products", prodRouter);
+//app.use("/carts", cartsRoutes);
 
-module.exports = app;
+export default app;
