@@ -37,3 +37,30 @@ export const create = async (req, res) => {
     res.status(500).json({ error: "Erro ao cadastrar produtos." });
   }
 };
+
+
+export const deleteProduct = async (req, res) => {
+  const id  = req.params.id;
+
+  try {
+    await managerProducts.deleteProductById(id);
+    res.status(201).json({ message: "Produto deletado com sucesso" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Erro ao deletar produto." });
+  }
+};
+
+
+export const upDateProduct = async (req, res) => {
+  const id  = req.params.id;
+  const product = req.body
+
+  try {
+    await managerProducts.upDateProduct(id, product);
+    res.status(201).json({ message: "Produto atualizado com sucesso" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Erro ao atualizar produto." });
+  }
+};
