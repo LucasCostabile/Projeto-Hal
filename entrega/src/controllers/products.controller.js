@@ -2,8 +2,10 @@ import ProductManager from "../models/ManagerProducts.js";
 const managerProducts = new ProductManager();
 
 export const getAll = async (req, res) => {
+  const limit = req.query.limit;
   try {
-    const produtos = await managerProducts.readProductsFromFile();
+    const produtos = await managerProducts.readProductsFromFile(limit);
+
     res.status(200).json(produtos);
   } catch (error) {
     console.log(error);

@@ -3,23 +3,36 @@ const cartManager = new ManagerCart();
 
 export const createCart = async (req, res) => {
   const prod = req.body;
-  console.log(prod);
-
-  res.status(200).json("Produto adicionado ao carrinho");
+  try {
+    cartManager.createCart(prod);
+    res.status(200).json("Produto adiconado ao carrinho");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Erro ao adicionar o produto!");
+  }
 };
 
 export const getById = async (req, res) => {
   const id = req.params.cid;
 
-  console.log(id);
-
-  res.status(200).json("produto encontrado");
+  try {
+    const prods = cartManager.getProductById(id);
+    res.status(200).json(prods);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json("Erro ao encontrar o produto! verifique o id.");
+  }
 };
 
 export const addProductInCart = async (req, res) => {
   const { cid, pid } = req.params;
+  const prods = req.body;
 
-  console.log(`Cart ID: ${cid}, prod ID: ${pid}`);
-
-  res.status(200).json("Tudo ok");
+  try {
+    cartManager.updateProds(cid, pid, prods);
+    res.status(200).json("Carrinho atualizado com sucesso!");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("erro interno!");
+  }
 };
