@@ -16,11 +16,14 @@ export const getById = async (req, res) => {
   const id = req.params.cid;
 
   try {
-    const prods = cartManager.getProductById(id);
-    res.status(200).json(prods);
+    const prods = await cartManager.getProductById(id);
+    if (!prods) {
+      return res.status(404).json("Produto não encontrado!!");
+    }
+    return res.status(200).json(prods.prod);
   } catch (error) {
     console.log(error);
-    res.status(404).json("Erro ao encontrar o produto! verifique o id.");
+    return res.status(404).json("Erro ao encontrar o produto! verifique o id.");
   }
 };
 
