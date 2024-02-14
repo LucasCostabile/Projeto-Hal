@@ -30,9 +30,19 @@ export const getById = async (req, res) => {
 };
 
 export const create = async (req, res) => {
-  const product = req.body;
+  //const product = req.body;
   try {
-    await managerProducts.addProduct(product);
+    const {
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      category,
+      status,
+    } = req.body;
+    await managerProducts.addProduct(req.body);
     res.status(201).json({ message: "Produto cadastrado" });
   } catch (error) {
     console.log(error);
@@ -40,9 +50,8 @@ export const create = async (req, res) => {
   }
 };
 
-
 export const deleteProduct = async (req, res) => {
-  const id  = req.params.id;
+  const id = req.params.id;
 
   try {
     await managerProducts.deleteProductById(id);
@@ -53,10 +62,9 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-
 export const upDateProduct = async (req, res) => {
-  const id  = req.params.id;
-  const product = req.body
+  const id = req.params.id;
+  const product = req.body;
 
   try {
     await managerProducts.upDateProduct(id, product);

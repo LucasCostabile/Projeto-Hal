@@ -7,13 +7,24 @@ class ProductManager {
   #__dirname = path.dirname(this.#__filename);
   #pathData = path.resolve(this.#__dirname, "../../data/produto.json");
 
-  constructor(title, description, price, thumbnail, code, stock) {
+  constructor(
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    status,
+    category
+  ) {
     this.title = title;
     this.description = description;
     this.price = price;
     this.thumbnail = thumbnail;
     this.code = code;
     this.stock = stock;
+    this.status = status;
+    this.category = category;
   }
 
   addProduct = async (product) => {
@@ -24,20 +35,33 @@ class ProductManager {
   };
 
   readData(reqBody) {
-    const { title, description, price, stock, thumbnail } = reqBody;
+    const {
+      title,
+      description,
+      price,
+      stock,
+      thumbnail,
+      code,
+      category,
+      status,
+    } = reqBody;
     const product_title = title;
     const product_desc = description;
     const product_price = price;
     const product_thumb = thumbnail;
-    const product_code = "";
+    const product_code = code;
     const product_stock = stock;
+    const product_category = category;
+    const product_status = status;
     let produto = new ProductManager(
       product_title,
       product_desc,
       product_price,
       product_thumb,
       product_code,
-      product_stock
+      product_stock,
+      product_category,
+      product_status
     );
     return produto;
   }
@@ -49,7 +73,8 @@ class ProductManager {
       produto.price === null ||
       produto.thumbnail === "" ||
       produto.stock === null ||
-      produto.code === null
+      produto.code === null ||
+      produto.category === ""
     ) {
       console.log("Erro: Produto com valores vazios ou nulos encontrado!");
       return false;
@@ -63,9 +88,9 @@ class ProductManager {
     let productsList = await this.readProductsFromFile();
     const id =
       productsList.length > 0
-        ? productsList[productsList.length - 1].code + 1
+        ? productsList[productsList.length - 1].id + 1
         : 1;
-    product.code = id;
+    product.id = id;
     productsList.push(product);
     await fs.writeFile(this.#pathData, JSON.stringify(productsList));
     console.log("Produto salvo com sucesso!");
@@ -74,6 +99,7 @@ class ProductManager {
   readProductsFromFile = async () => {
     try {
       const data = await fs.readFile(this.#pathData, "utf8");
+
       const parsedData = JSON.parse(data);
 
       if (Array.isArray(parsedData)) {
@@ -86,27 +112,27 @@ class ProductManager {
     }
   };
 
-  upDateProduct() {
-    let productId = entrada("Digite um código de produto para atualizar ");
-    const productsList = this.readProductsFromFile();
-    const index = productsList.findIndex(
-      (produto) => productId == produto.code
-    );
+  upDateProduct = async (productId, reqProducts) => {
+    const productsList = await this.readProductsFromFile();
+    console.log(productsList);
+    const index = productsList.findIndex((produto) => +productId == produto.id);
     if (index !== -1) {
       console.log(productsList[index]);
-      let updatedProduct = this.readData();
-      updatedProduct.code = parseInt(productId);
+      let updatedProduct = await this.readData(productsList);
+      updatedProduct.id = parseInt(productId);
+
+      updatedProduct = { id: +productId, ...reqProducts };
       productsList[index] = updatedProduct;
       fs.writeFile(this.#pathData, JSON.stringify(productsList));
       console.log("Produto atualizado com sucesso!");
     } else {
       console.log("PRODUTO NÃO ENCONTRADO");
     }
-  }
+  };
   deleteProductById = async (productId) => {
     let productsList = await this.readProductsFromFile();
     let updatedProductsList = productsList.filter(
-      (produto) => produto.code != +productId
+      (produto) => produto.id != +productId
     );
 
     if (updatedProductsList.length < productsList.length) {
@@ -120,15 +146,12 @@ class ProductManager {
   };
 
   getProductById = async (productId) => {
-    console.log(productId);
     const productsList = await this.readProductsFromFile();
 
-    console.log(productsList);
     const getProduct = productsList.find(
       (produto) => +productId === produto.id
     );
 
-    console.log(getProduct);
     return getProduct;
   };
 }
