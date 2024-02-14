@@ -13,7 +13,7 @@ class ProductManager {
         this.stock = stock;
         
     }
-
+// bosta
     addProduct=async(product)=> {
        let produto = this.readData(product);
         if (this.checkData(produto)) {
