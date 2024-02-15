@@ -14,16 +14,10 @@ export const getAll = async (req, res) => {
 };
 export const getById = async (req, res) => {
   try {
-    const limit = req.query.limit;
     const id = req.params.pid;
     const products = await managerProducts.getProductById(id);
 
-    if (limit) {
-      const limitedProducts = products.slice(0, +limit);
-      res.json({ products: limitedProducts });
-    } else {
-      res.json({ products });
-    }
+    res.json({ products });
   } catch (error) {
     res.status(500).json({ error: "Erro ao buscar produtos" });
   }

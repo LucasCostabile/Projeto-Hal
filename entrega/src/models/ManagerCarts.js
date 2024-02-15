@@ -84,8 +84,26 @@ export default class ManagerCart {
       filtredProdList.prod[0].quantity = newQuantity;
 
       this.#saveProductToFile(filtredProdList);
+      return;
     }
+
     filtredProdList.prod.push(prods);
     this.#saveProductToFile(filtredProdList);
+  };
+
+  readProductsFromFile = async () => {
+    try {
+      const data = await fs.readFile(this.#pathData, "utf8");
+
+      const parsedData = JSON.parse(data);
+
+      if (Array.isArray(parsedData)) {
+        return parsedData;
+      } else {
+        return [];
+      }
+    } catch (err) {
+      return [];
+    }
   };
 }

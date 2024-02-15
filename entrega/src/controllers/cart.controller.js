@@ -39,3 +39,15 @@ export const addProductInCart = async (req, res) => {
     res.status(500).json("erro interno!");
   }
 };
+
+export const getAll = async (req, res) => {
+  const limit = req.query.limit;
+  try {
+    const produtos = await cartManager.readProductsFromFile(limit);
+
+    res.status(200).json(produtos);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Erro ao consultar produtos." });
+  }
+};
