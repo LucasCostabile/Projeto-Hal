@@ -1,4 +1,6 @@
-import app from "./Express/app.js"
-app.listen(8080,()=>{
-    console.log("server on porta 8080")
-})
+import server from "./Express/app.js";
+
+const port = 8080;
+server.listen(port, () => {
+  console.log(`server on porta: ${port}`);
+});
