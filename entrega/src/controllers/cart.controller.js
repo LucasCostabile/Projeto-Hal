@@ -1,4 +1,4 @@
-import ManagerCart from "../models/ManagerCarts.js";
+import ManagerCart from "../DB/FileSystem/models/ManagerCarts.js";
 const cartManager = new ManagerCart();
 
 export const createCart = async (req, res) => {
@@ -44,8 +44,9 @@ export const getAll = async (req, res) => {
   const limit = req.query.limit;
   try {
     const produtos = await cartManager.readProductsFromFile(limit);
-
-    res.status(200).json(produtos);
+    const products = { name: "Henrique" };
+    res.render("index", products);
+    //res.status(200).json(produtos);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Erro ao consultar produtos." });
