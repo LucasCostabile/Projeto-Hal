@@ -1,4 +1,4 @@
-import { cartModel } from "../DB/Mongo/models/cartModel";
+import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
 const createCart = async (cart) => {
   const newCart = await cartModel.create(cart);

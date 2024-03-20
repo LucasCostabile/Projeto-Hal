@@ -1,15 +1,44 @@
 import express from "express";
-import {create,getAll,getById, deleteProduct, upDateProduct} from "../controllers/products.controller.js"
+//metodos do service de Produtos
+import {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updatedProduct,
+  deleteProduct,
+} from "../services/product.service.js";
+//Rotas do express
 const prodRouter = express.Router();
+//import do middleware
+import { productValidation } from "../middleware/productValidation.js";
 
-prodRouter.get("/", getAll);
+prodRouter.get("/", async (req, res) => {
+  try {
+    const prods = await getAllProducts();
+    res.render("productsForm", { prods });
+  } catch (error) {
+    console.log(error);
+    res.render("404", { message: "Erro ao listar os produtos!" });
+  }
+});
 
-prodRouter.get("/:pid",getById );
+prodRouter.get("/:pid");
 
-prodRouter.post("/", create);
+prodRouter.post("/", productValidation, async (req, res) => {
+  const product = req.body;
 
-prodRouter.put("/:id", upDateProduct);
+  try {
+    const createdProduct = await createProduct(product);
+    console.log(createdProduct);
+    res.render("productsForm");
+  } catch (error) {
+    console.log(error);
+    res.render("404", { message: "Erro ao cadastrar o produto!" });
+  }
+});
 
-prodRouter.delete("/:id",deleteProduct);
+prodRouter.put("/:id");
+
+prodRouter.delete("/:id");
 
 export default prodRouter;

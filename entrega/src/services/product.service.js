@@ -1,4 +1,4 @@
-import { productModel } from "../DB/Mongo/models/productsModel";
+import { productModel } from "../DB/Mongo/models/productsModel.js";
 
 const createProduct = async (product) => {
   const newProduct = await productModel.create(product);
