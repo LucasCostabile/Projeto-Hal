@@ -23,7 +23,6 @@ import http from "http";
 //Import das rotas!
 import prodRouter from "../routes/products.routes.js";
 import cartsRoutes from "../routes/carts.routes.js";
-import { error } from "console";
 import { populateRouter } from "../routes/populate.routes.js";
 
 //config dos caminhos
@@ -35,6 +34,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//confif pasta public
+const staticPath = path.join(`${__dirname}/../public`);
+app.use(express.static(staticPath));
+
 //config do Handlebars
 const pathView = path.resolve(`${__dirname}/../views/`);
 app.engine("handlebars", engine());
@@ -45,10 +48,6 @@ app.set("views", pathView);
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
-
-//confif pasta public
-const staticPath = path.join(`${__dirname}/public`);
-app.use("/public", express.static(staticPath));
 
 //config do socket io
 const server = http.createServer(app);

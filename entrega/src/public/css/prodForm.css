@@ -27,3 +27,32 @@ button[type="submit"] {
 br {
   display: none;
 }
+/* Estilos para o contêiner de produtos */
+#prodsList {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+/* Estilos para cada item de produto */
+#prodsList p {
+  margin: 0;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Estilos para os spans dentro de cada item de produto */
+#prodsList span {
+  display: block;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Estilos para o título */
+#prodsList span:first-child {
+  font-weight: bold;
+  color: #007bff;
+}

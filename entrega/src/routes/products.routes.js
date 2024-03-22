@@ -6,6 +6,7 @@ import {
   getProductById,
   updatedProduct,
   deleteProduct,
+  getProductsWithPaginate,
 } from "../services/product.service.js";
 //Rotas do express
 const prodRouter = express.Router();
@@ -14,15 +15,26 @@ import { productValidation } from "../middleware/productValidation.js";
 
 prodRouter.get("/", async (req, res) => {
   try {
-    const prods = await getAllProducts();
-    res.render("productsForm", { prods });
+    const prods = await getProductsWithPaginate();
+    console.log(prods);
+    res.render("productsForm", prods.doc);
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao listar os produtos!" });
   }
 });
 
-prodRouter.get("/:pid");
+prodRouter.get("/:pid", async (req, res) => {
+  const { pid } = req.params;
+  try {
+    const productFound = await getProductById(pid);
+    console.log(productFound);
+    return res.render("productsForm", { productFound });
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
+  }
+});
 
 prodRouter.post("/", productValidation, async (req, res) => {
   const product = req.body;

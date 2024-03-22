@@ -5,8 +5,35 @@ const createProduct = async (product) => {
 
   return newProduct;
 };
+const getProductsWithPaginate = async (limit, page, query, sort) => {
+  if (!limit) {
+    limit = 10;
+  }
+  if (!page) {
+    page = 1;
+  }
+  if (!query) {
+    query = {};
+  }
+  try {
+    let products = await productModel.paginate(query, {
+      page: page,
+      limit: limit,
+    });
 
-const getAllProducts = async (limit, page, query, sort) => {
+    const productObj = {
+      status: true,
+      ...products,
+    };
+
+    return productObj;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const getAllProducts = async () => {
   let productsFound = await productModel.find();
 
   productsFound = productsFound.map((product) => product.toJSON());
@@ -15,7 +42,7 @@ const getAllProducts = async (limit, page, query, sort) => {
 };
 
 const getProductById = async (id) => {
-  const product = await productModel.findById(id);
+  const product = await productModel.findOne({ code: id });
 
   return product;
 };
@@ -35,6 +62,7 @@ export {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductsWithPaginate,
   deleteProduct,
   updatedProduct,
 };
