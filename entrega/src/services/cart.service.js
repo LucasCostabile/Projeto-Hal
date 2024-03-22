@@ -1,6 +1,14 @@
 import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
 const createCart = async (cart) => {
+  const create_cartID = () => {
+    let cartID = `C${Math.floor(Math.random + 1) * 5}`;
+    return cartID;
+  };
+  cart = {
+    cart_ID: create_cartID(),
+    ...cart,
+  };
   const newCart = await cartModel.create(cart);
 
   return newCart;
@@ -19,7 +27,7 @@ const updateCart = async (id, cart) => {
 };
 
 const getCartById = async (id) => {
-  const cart = await cartModel.findById(id);
+  const cart = await cartModel.findOne(id).populate("products");
 
   return cart;
 };
