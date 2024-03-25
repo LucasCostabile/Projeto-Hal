@@ -22,14 +22,36 @@
 
 </form>
 
-<div id="prodsList">
+<div id="prodsList"  class="card-products">
+  <label for="search">Teste limit:</label>
+  <input type="text" name="search" id="search-product" />
+  {{#if prods.length}}
   {{#each prods}}
-    <p>
-
-      <span> title: {{title}}</span>
-
-      <span> description: {{description}}</span>
-    </p>
-
+          <div class="card-body">
+        <img src="" class="" alt="imagem product">
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+         <p class="card-text"> R$:{{price}}</p>
+         <p class="card-text"> code: {{code}}</p>
+         <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
+      </div>
+      
   {{/each}}
+  {{else}}
+  <div>
+ <div class="card-body">
+        <img src="" class="" alt="imagem product">
+        <h5 class="card-title">{{productFound.protitle}}</h5>
+        <p class="card-text">{{productFound.description}}</p>
+         <p class="card-text"> R$:{{productFound.price}}</p>
+         <p class="card-text"> code: {{productFound.code}}</p>
+         <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
+      </div>
+
 </div>
+  {{/if}}
+
+</div>
+
+
+<script src="/js/index.js"></script>
