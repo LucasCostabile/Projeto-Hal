@@ -1,5 +1,8 @@
 const limitProduct=document.getElementById("search-product");
-const url="`/products?limit=${limit}&page=${page}&sort=${sort}`;"
+const limit=10;
+const page=1;
+const sort=-1;
+const url=`/products?limit=${limit}&page=${page}&sort=${sort}`;
 
 limitProduct.addEventListener('keyup', (e) => {
     console.log("keyup", e.key);
@@ -13,7 +16,7 @@ limitProduct.addEventListener('keyup', (e) => {
 
 // testando passar paramentros pelo front para definir limit
 const limitProducts=async()=>{
-       const response = await fetch(`/products?limit=${limitProduct.value}`, {
+       const response = await fetch(url, {
         method: 'get',
         headers: {
            'Content-Type': 'application/json',

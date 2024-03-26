@@ -23,10 +23,13 @@ prodRouter.get("/", async (req, res) => {
     
     //Fazendo a chamada do Service de produtos enviando os valores da query como um objeto para facilitar definir valores por default
     const prods = await getProductsWithPaginate({ limit, page, query, sort });
+    let productObjDocs= prods.docs.map((product) => product.toJSON()); 
+      console.log(prods.page + "teste front");
+
+   
     
-    
-    //enviado os valores para a view do objeto prods com a propriedade docs que contem os valores que buscamos no mongoDB.
-    res.render("productsForm", {prods});
+    //enviado os valores para a view do objeto prods com a propriedade docs e as page.
+    res.render("productsForm", {prods: productObjDocs, page: prods.page});
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao listar os produtos!" });
