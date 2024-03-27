@@ -78,8 +78,34 @@ br {
  align-items: center;
  justify-content: center;
   background-color: #f0f0f0;
+ 
 }
+.sec-page{
+  padding-top: 10px;
+  display: flex;
+  justify-content:space-between;
+  
+    }
+
+    .form-select.width{
+      width: 200px;
+      height: 40px;
+    }
  
- 
+    .page-item{
+      display: flex;
+      justify-content: center;
+      padding: 5px;
+      width: 50px;
+      cursor: pointer;
+      border: #2c5dff 1px solid;
+      
+       
+    }
+    .page-item:hover{
+      background-color: #007bff;
+      color: white;
+             
+    }
 
   

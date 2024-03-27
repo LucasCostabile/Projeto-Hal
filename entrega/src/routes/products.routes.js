@@ -16,15 +16,15 @@ import { productValidation } from "../middleware/productValidation.js";
 prodRouter.get("/", async (req, res) => {
 
   //pegando os valores dos paramentros do browser por query params
-  const { limit, page, query, sort } = req.query;
-  console.log(req.query);
+  const { limit, page, query} = req.query;
+ // console.log(req.query);
  
   try {
     
     //Fazendo a chamada do Service de produtos enviando os valores da query como um objeto para facilitar definir valores por default
-    const prods = await getProductsWithPaginate({ limit, page, query, sort });
+    const prods = await getProductsWithPaginate({ limit, page, query,});
     let productObjDocs= prods.docs.map((product) => product.toJSON()); 
-      console.log(prods.page + "teste front");
+     // console.log(prods.page + "teste front");
 
    
     

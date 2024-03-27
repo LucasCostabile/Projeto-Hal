@@ -1,33 +1,45 @@
-const limitProduct=document.getElementById("search-product");
-const limit=10;
-const page=1;
-const sort=-1;
-const url=`/products?limit=${limit}&page=${page}&sort=${sort}`;
+const selectProduct = document.getElementById("select-products");
+const selectPage = document.getElementById("select-page");
+let pageQueryValue;
 
-limitProduct.addEventListener('keyup', (e) => {
-    console.log("keyup", e.key);
-    if (e.key === 'Enter') {
-        if (limitProduct.value.trim().length > 0) {
-         
-                limitProducts();     
-        }
-    }
+selectProduct.addEventListener('change', async () => {
+    atualizarLinks(selectProduct.value, 'http://localhost:8080/products');
+    console.log("teste");
+    
 });
 
-// testando passar paramentros pelo front para definir limit
-const limitProducts=async()=>{
-       const response = await fetch(url, {
-        method: 'get',
-        headers: {
-           'Content-Type': 'application/json',
-        }
-     });
-      
-     if (response.ok) {
-        window.location.href =`/products?limit=${limitProduct.value}`;
+selectPage.addEventListener('click', async(event) => {
+    atualizarLinks(selectProduct.value, 'http://localhost:8080/products');
 
-     } else {
-        console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
-     }
 
+});
+
+   
+
+
+function atualizarLinks(limit, baseUrl) {
+    // Seleciona todos os elementos da paginação
+    let elementosPaginacao = document.querySelectorAll('.page-item ');
+
+    // Itera sobre cada elemento
+    for (let i = 0; i < elementosPaginacao.length; i++) {
+        // Obtém o valor da página do atributo 'value'
+        let pagina = elementosPaginacao[i].getAttribute('value');
+
+        // Cria a nova URL
+        let novaUrl = baseUrl + '?limit=' + limit + '&page=' + pagina;
+
+        // Obtém o link dentro do item de paginação
+        let link = elementosPaginacao[i].querySelector('a');
+
+        // Atualiza o atributo 'href' do link
+        link.setAttribute('href', novaUrl);
+        console.log(novaUrl);
+    }
 }
+
+// Uso da função
+
+
+
+

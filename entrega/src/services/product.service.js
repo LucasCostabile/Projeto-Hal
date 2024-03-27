@@ -6,10 +6,14 @@ const createProduct = async (product) => {
   return newProduct;
 };
 //Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
-const getProductsWithPaginate = async ({limit = 10, page = 1, query = {},sort = { price: sort }, //teste ok para ordenação
+const getProductsWithPaginate = async ({
+  limit = 10,
+   page = 1, 
+   query = {},
+   //teste ok para ordenação
 }) => {
 
-  console.log(sort+"sort no service");
+ 
   //usando o paginate para buscar os valores no MongoDB
   try {
     limit = parseInt(limit);
@@ -17,9 +21,9 @@ const getProductsWithPaginate = async ({limit = 10, page = 1, query = {},sort = 
     const products = await productModel.paginate(query, {
       page: page,
       limit: limit,
-      sort: sort,
+     
     });
-    console.log(products.docs);
+    
     //criando um objeto novo para a resposta como o exercicio pede.
     const productObj = {
       status: true,
