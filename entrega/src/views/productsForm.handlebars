@@ -22,27 +22,36 @@
 
 </form>
 
-
 <div class="sec-page">
 
-  <select id="select-products" class="form-select width" aria-label="Small select example">
-    <option  value="10" selected>Produtos por página</option>
-    <option  value="10"> <a href="http://localhost:8080/products?limit=5&page=2"> 10</a> </option>
-    <option   value="5"> <a href=""> 5</a></option>
-    <option   value="3"> <a href=""> 3</a></option>
+  <select
+    id="select-products"
+    class="form-select width"
+    aria-label="Small select example"
+  >
+    <option value="10" selected>Produtos por página</option>
+    <option value="10">
+      <a href="http://localhost:8080/products?limit=5&page=2"> 10</a>
+    </option>
+    <option value="5"> <a href=""> 5</a></option>
+    <option value="3"> <a href=""> 3</a></option>
   </select>
 
   <nav aria-label="Page navigation example">
-   <ul class="pagination" id="select-page">
-  <li class="page-item" value="1"> <a href=""> 1 </a> </li>
-  <li class="page-item" value="2"> <a href=""> 2 </a> </li>
-  <li class="page-item" value="3"> <a href=""> 3 </a> </li>
-  <li class="page-item" value="4"> <a href=""> 4 </a> </li>
-</ul>
+    <ul class="pagination" id="select-page">
+      <li class="page-item" value="1"> <a href=""> 1 </a> </li>
+      <li class="page-item" value="2"> <a href=""> 2 </a> </li>
+      <li class="page-item" value="3"> <a href=""> 3 </a> </li>
+      <li class="page-item" value="4"> <a href=""> 4 </a> </li>
+    </ul>
 
   </nav>
 
-  <select id="order-products" class="form-select width" aria-label="Small select example">
+  <select
+    id="order-products"
+    class="form-select width"
+    aria-label="Small select example"
+  >
     <option value="0" selected>Ordenar por:</option>
     <option value="-1">Menor preço</option>
     <option value="1">Maior preço</option>
@@ -50,35 +59,37 @@
 
 </div>
 
-
 <div id="prodsList" class="card-products">
   {{#if prods.length}}
-  {{#each prods}}
-  <div class="card-body">
-    <img src="" class="" alt="imagem product">
-    <h5 class="card-title">{{title}}</h5>
-    <p class="card-text">{{description}}</p>
-    <p class="card-text"> R$:{{price}}</p>
-    <p class="card-text"> code: {{code}}</p>
-    <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
-  </div>
+    {{#each prods}}
+      <div class="card-body">
+        <img src="" class="" alt="imagem product" />
+        <h5 class="card-title">{{title}}</h5>
+        <p class="card-text">{{description}}</p>
+        <p class="card-text"> R$:{{price}}</p>
+        <p class="card-text"> code: {{code}}</p>
+        <p class="id-prod" id="productID">{{_id}}</p>
+        <button onclick="handleAddCart()" class="btn btn-secondary">Adicionar ao
+          Carrinho</button>
+      </div>
 
-  {{/each}}
+    {{/each}}
   {{else}}
-  <div>
-    <div class="card-body">
-      <img src="" class="" alt="imagem product">
-      <h5 class="card-title">{{productFound.protitle}}</h5>
-      <p class="card-text">{{productFound.description}}</p>
-      <p class="card-text"> R$:{{productFound.price}}</p>
-      <p class="card-text"> code: {{productFound.code}}</p>
-      <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
-    </div>
+    <div>
+      <div class="card-body">
+        <img src="" class="" alt="imagem product" />
+        <h5 class="card-title">{{productFound.protitle}}</h5>
+        <p class="card-text">{{productFound.description}}</p>
+        <p class="card-text"> R$:{{productFound.price}}</p>
+        <p class="card-text"> code: {{productFound.code}}</p>
+        <p class="id-prod">{{productFound._id}}</p>
+        <button onclick="handleAddCart" class="btn btn-secondary">Adicionar ao
+          Carrinho</button>
+      </div>
 
-  </div>
+    </div>
   {{/if}}
 
 </div>
-
 
 <script src="/js/index.js"></script>
