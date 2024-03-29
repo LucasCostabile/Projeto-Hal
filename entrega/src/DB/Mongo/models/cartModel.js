@@ -2,10 +2,15 @@ import mongoose from "mongoose";
 const cartCollection = "cart";
 
 const cartSchema = new mongoose.Schema({
+
   code: {
     type: String,
     unique: true,
   },
+
+  //criando um ID proprio para facilitar as buscas
+ 
+
   product: {
     type: [
       {
@@ -17,6 +22,9 @@ const cartSchema = new mongoose.Schema({
     ],
     default: [],
   },
+
+  //quantidade de produtos no carrinho
+
   quantity: Number,
 });
 

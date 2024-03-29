@@ -1,23 +1,22 @@
 import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
+
 const createCartCode = () => {
   const code = `C${Math.floor(Math.random() * 9999) + 1}`;
   return code;
 };
 
 const createCart = async (cart) => {
+  const create_cartID = () => {
+    let cartID = `C${Math.floor(Math.random + 1) * 5}`;
+    return cartID;
+  };
   cart = {
-    code: createCartCode(),
+    cart_ID: create_cartID(),
     ...cart,
   };
-  try {
-    const newCart = await cartModel.create(cart);
-    return newCart;
-  } catch (e) {
-    console.log(e);
-    throw new Error(e);
-  }
-};
+  const newCart = await cartModel.create(cart);
+
 
 const deleteCart = async (id) => {
   try {
@@ -36,6 +35,7 @@ const updateCart = async (id, cart) => {
 };
 
 const getCartById = async (id) => {
+
   try {
     const cart = await cartModel.findById(id).populate("product.product");
     console.log("buscando o carrinho por id no mongo:", cart);
@@ -51,7 +51,8 @@ const addProductOnCart = async (cid, pid) => {
     let cart = await cartModel.findById(cid);
 
     cart.product[0].push({ product: pid });
-    let updatedCart = await cartModel.updateOne({ _id: cid }, cart);
+    let updatedCart = await cartModel.updateOne({ _id: cid }, cart)
+  const cart = await cartModel.findOne(id).populate("products")
 
     return updatedCart;
   } catch (error) {
