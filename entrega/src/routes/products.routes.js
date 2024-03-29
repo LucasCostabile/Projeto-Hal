@@ -14,14 +14,22 @@ const prodRouter = express.Router();
 import { productValidation } from "../middleware/productValidation.js";
 
 prodRouter.get("/", async (req, res) => {
+
   //pegando os valores dos paramentros do browser por query params
-  const { limit, page, query, sort } = req.query;
+  const { limit, page, query} = req.query;
+ // console.log(req.query);
+ 
   try {
+    
     //Fazendo a chamada do Service de produtos enviando os valores da query como um objeto para facilitar definir valores por default
-    const prods = await getProductsWithPaginate({ limit, page, query, sort });
-    console.log(prods);
-    //enviado os valores para a view do objeto prods com a propriedade docs que contem os valores que buscamos no mongoDB.
-    res.render("productsForm", prods.doc);
+    const prods = await getProductsWithPaginate({ limit, page, query,});
+    let productObjDocs= prods.docs.map((product) => product.toJSON()); 
+     // console.log(prods.page + "teste front");
+
+   
+    
+    //enviado os valores para a view do objeto prods com a propriedade docs e as page.
+    res.render("productsForm", {prods: productObjDocs, page: prods.page});
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao listar os produtos!" });
@@ -32,7 +40,7 @@ prodRouter.get("/:pid", async (req, res) => {
   const { pid } = req.params;
   try {
     const productFound = await getProductById(pid);
-    console.log(productFound);
+    
     return res.render("productsForm", { productFound });
   } catch (err) {
     console.log(err);
