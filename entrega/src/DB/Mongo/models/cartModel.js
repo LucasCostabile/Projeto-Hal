@@ -1,8 +1,10 @@
+import { json } from "express";
 import mongoose from "mongoose";
 const cartCollection = "cart";
 
 const cartSchema = new mongoose.Schema({
-  product: [{ code: String, quantity: Number }],
+  productsCart: [],
+
 });
 
 export const cartModel = mongoose.model(cartCollection, cartSchema);

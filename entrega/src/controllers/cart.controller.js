@@ -45,7 +45,7 @@ export const getAll = async (req, res) => {
   try {
     const produtos = await cartManager.readProductsFromFile(limit);
     const products = { name: "Henrique" };
-    res.render("index", products);
+    //res.render("index", products);
     //res.status(200).json(produtos);
   } catch (error) {
     console.log(error);

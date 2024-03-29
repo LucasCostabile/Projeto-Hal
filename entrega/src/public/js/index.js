@@ -1,45 +1,73 @@
-const selectProduct = document.getElementById("select-products");
-const selectPage = document.getElementById("select-page");
-let pageQueryValue;
+const selectProduct=document.getElementById("select-products");
+const selectPage= document.getElementById("select-page");
+const orderPrice=document.getElementById("order-products-price");
+let pageQueryValue=1;
+
+
+if (sessionStorage.getItem('selectProduct')) {
+    selectProduct.value = sessionStorage.getItem('selectProduct');
+}
 
 selectProduct.addEventListener('change', async () => {
-    atualizarLinks(selectProduct.value, 'http://localhost:8080/products');
-    console.log("teste");
+    sessionStorage.setItem('selectProduct', selectProduct.value);
+    let url=`/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+   const response = await fetch(url, {
+      method: 'get',
+      headers: {
+         'Content-Type': 'application/json',
+      }
+   });
+    
+   if (response.ok) {
+    window.location.href =`/products?limit=${selectProduct.value}`
+        
+
+   } else {
+      console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
+   }
+
     
 });
 
-selectPage.addEventListener('click', async(event) => {
-    atualizarLinks(selectProduct.value, 'http://localhost:8080/products');
-
-
-});
-
+   selectPage.addEventListener('click', async(event)=>{
+      if(event.target.tagName=="LI"){
+         pageQueryValue = event.target.getAttribute('value');
+         let url=`/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+         
+      
+      const response = await fetch(url, {
+         method: 'get',
+         headers: {
+            'Content-Type': 'application/json',
+         }
+      });
+       
+      if (response.ok) {
+         window.location.href =`/products?limit=${selectProduct.value}&page=${pageQueryValue}`
    
-
-
-function atualizarLinks(limit, baseUrl) {
-    // Seleciona todos os elementos da paginação
-    let elementosPaginacao = document.querySelectorAll('.page-item ');
-
-    // Itera sobre cada elemento
-    for (let i = 0; i < elementosPaginacao.length; i++) {
-        // Obtém o valor da página do atributo 'value'
-        let pagina = elementosPaginacao[i].getAttribute('value');
-
-        // Cria a nova URL
-        let novaUrl = baseUrl + '?limit=' + limit + '&page=' + pagina;
-
-        // Obtém o link dentro do item de paginação
-        let link = elementosPaginacao[i].querySelector('a');
-
-        // Atualiza o atributo 'href' do link
-        link.setAttribute('href', novaUrl);
-        console.log(novaUrl);
+      } else {
+         console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
+      }
     }
-}
+   });
 
-// Uso da função
-
-
-
-
+   orderPrice.addEventListener('change', async () => {
+      sessionStorage.setItem('', selectProduct.value);
+      let url=`/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
+     const response = await fetch(url, {
+        method: 'get',
+        headers: {
+           'Content-Type': 'application/json',
+        }
+     });
+      
+     if (response.ok) {
+      window.location.href =`/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`
+          
+  
+     } else {
+        console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
+     }
+  
+      
+  });

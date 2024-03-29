@@ -8,40 +8,35 @@ const createProduct = async (product) => {
 //Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
 const getProductsWithPaginate = async ({
   limit = 10,
-   page = 1, 
-   query = {},
-   //teste ok para ordenação
-}) => {
+  page = 1,
+  query = {},
+  sort = 1,
 
- 
+}) => {
+  //teste ok para ordenação
+  sort = parseInt(sort);
+  let ord = sort = { price: sort };
+
   //usando o paginate para buscar os valores no MongoDB
   try {
     limit = parseInt(limit);
-    
+
     const products = await productModel.paginate(query, {
       page: page,
       limit: limit,
-     
+      sort: ord,
+
     });
-    
-    //criando um objeto novo para a resposta como o exercicio pede.
+
+
     const productObj = {
       status: true,
       ...products,
     };
 
-//let productObjDocs= productObj.docs.map((product) => product.toJSON()); // pegando o array de produtos para visualiazar no handlebars
- // não sei se é necessario o metodo agregate  fiquei na duvida
- /*
-productObjDocs = await productModel.aggregate([
- 
-  // { $sort:sort }, // Aplicando a ordenação : obs um erro acontece trazendo um item vazio
-  { $limit: limit }, // Limitando o número de documentos retornados por página
-]);
-*/
-  
+
     return productObj;
-    
+
   } catch (err) {
     console.log(err);
     return null;
@@ -63,7 +58,7 @@ const getAllProducts = async () => {
 const getProductById = async (id) => {
   const product = await productModel.findOne({ code: id });
   const productJSON = product.toJSON();
-   return productJSON;
+  return productJSON;
 };
 
 const deleteProduct = async (id) => {
