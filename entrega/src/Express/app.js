@@ -23,7 +23,7 @@ import http from "http";
 //Import das rotas!
 import prodRouter from "../routes/products.routes.js";
 import cartsRoutes from "../routes/carts.routes.js";
-import { error } from "console";
+import { populateRouter } from "../routes/populate.routes.js";
 
 //config dos caminhos
 const __filename = fileURLToPath(import.meta.url);
@@ -34,6 +34,10 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//confif pasta public
+const staticPath = path.join(`${__dirname}/../public`);
+app.use(express.static(staticPath));
+
 //config do Handlebars
 const pathView = path.resolve(`${__dirname}/../views/`);
 app.engine("handlebars", engine());
@@ -43,10 +47,7 @@ app.set("views", pathView);
 //config das rotas!
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
-
-//confif pasta public
-const staticPath = path.join(`${__dirname}/public`);
-app.use("/static", express.static(staticPath));
+app.use("/populate", populateRouter);
 
 //config do socket io
 const server = http.createServer(app);
@@ -66,21 +67,21 @@ io.on("connection", (socket) => {
 //export do server com o express e socket juntos.
 export default server;
 
-const cretateArray = () => {
-  const arr = [];
-  for (let i = 0; i >= 19; i++) {}
-};
+// const cretateArray = () => {
+//   const arr = [];
+//   for (let i = 0; i >= 19; i++) {}
+// };
 
-function generateRandomArray() {
-  const randomArray = [];
-  while (randomArray.length < 20) {
-    const randomNum = Math.floor(Math.random() * 100) + 1;
-    if (!arr.includes(randomNum)) {
-      arr.push(randomNum);
-    }
-  }
+// function generateRandomArray() {
+//   const randomArray = [];
+//   while (randomArray.length < 20) {
+//     const randomNum = Math.floor(Math.random() * 100) + 1;
+//     if (!arr.includes(randomNum)) {
+//       arr.push(randomNum);
+//     }
+//   }
 
-  const max = Math.max(...randomArray);
-  const min = Math.min(...randomArray);
-  return { max, min };
-}
+//   const max = Math.max(...randomArray);
+//   const min = Math.min(...randomArray);
+//   return { max, min };
+// }

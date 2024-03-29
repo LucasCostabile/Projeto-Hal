@@ -5,8 +5,34 @@ const createProduct = async (product) => {
 
   return newProduct;
 };
+//Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
+const getProductsWithPaginate = async ({
+  limit = 10,
+  page = 1,
+  query = {},
+  sort = { price: -1 },
+}) => {
+  //usando o paginate para buscar os valores no MongoDB
+  try {
+    const products = await productModel.paginate(query, {
+      page: page,
+      limit: limit,
+      sort: sort,
+    });
+    //criando um objeto novo para a resposta como o exercicio pede.
+    const productObj = {
+      status: true,
+      ...products,
+    };
 
-const getAllProducts = async (limit, page, query, sort) => {
+    return productObj;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const getAllProducts = async () => {
   let productsFound = await productModel.find();
 
   productsFound = productsFound.map((product) => product.toJSON());
@@ -15,7 +41,7 @@ const getAllProducts = async (limit, page, query, sort) => {
 };
 
 const getProductById = async (id) => {
-  const product = await productModel.findById(id);
+  const product = await productModel.findOne({ code: id });
 
   return product;
 };
@@ -35,6 +61,7 @@ export {
   createProduct,
   getAllProducts,
   getProductById,
+  getProductsWithPaginate,
   deleteProduct,
   updatedProduct,
 };
