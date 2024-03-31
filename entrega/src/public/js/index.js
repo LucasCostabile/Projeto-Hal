@@ -86,6 +86,6 @@ const handleAddCart = async (id) => {
       },
       body: JSON.stringify(requestData)
    })
-
+   
 
 }

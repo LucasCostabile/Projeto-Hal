@@ -20,7 +20,7 @@ cartRoutes.get("/:pid", async (req, res) => {
 
 cartRoutes.post("/", async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
- const idCart="6609b83ed74ce852395a21bb" // fazer dinamico 
+ const idCart="6609b839d74ce852395a21b6" // fazer dinamico 
 
   const idProduct=req.body.id; 
    try {
@@ -28,6 +28,7 @@ cartRoutes.post("/", async (req, res) => {
   
     const productFound = await getProductById(idProduct); //  pega product pelo front atravez do id 
    const cartCreated = await createCart(productFound, cartID);  //envia para service para salvar no banco
+   console.log("produto no carrinho")
    return cartCreated;
     
   } catch (err) {

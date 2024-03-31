@@ -22,7 +22,7 @@ const createCart = async (cartData, id) => {
 
 const deleteCart = async (id) => {
   const deletedCart = await cartModel.deleteOne({_id: id});
-  console.log("produto "+ id + deletado);
+  console.log("produto "+ id + "deletado");
   return deletedCart;
 };
 
