@@ -19,8 +19,8 @@
   <br />
   <br />
   <button type="submit">Enviar</button>
-
 </form>
+
 
 
 <div class="sec-page">
@@ -58,8 +58,10 @@
     <h5 class="card-title">{{title}}</h5>
     <p class="card-text">{{description}}</p>
     <p class="card-text"> R$:{{price}}</p>
-    <p class="card-text"> code: {{code}}</p>
-    <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
+    <p>{{code}}</p>
+      <p class="card-text"> {{_id}}</p>
+
+    <button id="productID" onclick="handleAddCart('{{_id}}')" class="btn btn-secondary btnAddCart">Adicionar ao Carrinho</button>
   </div>
 
   {{/each}}

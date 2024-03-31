@@ -1,53 +1,55 @@
 import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
-const createCart = async (cartData,id) => {
-  
-
+const createCart = async (cartData, id) => {
   try {
-       
-    let cartExist = await cartModel.findOne({_id: id});
-    
+    let cartExist = await cartModel.findOne({ _id: id });
     if (cartExist) {
-     console.log("produtos" +cartExist);
-      cartExist.productsCart.push(cartData);//  pegar id do produto e somar quantyti
-      
+      cartExist.productsCart.push(cartData);// fazer pegar id do produto e somar quantyti
       await cartExist.save();  
-      
-          return cartExist;;
-     
+      return cartExist;;
     }
     else {
-      
      const newCart = await cartModel.create({ productsCart: cartData});
      return newCart;
-      
-    }
-  
-    
-    
+   }
+
   } catch (error) {
     console.log(error);
   }
 
-  return ;
+  return;
 };
 
 const deleteCart = async (id) => {
-  const deletedCart = await cartModel.deleteOne(id);
-
+  const deletedCart = await cartModel.deleteOne({_id: id});
+  console.log("produto "+ id + deletado);
   return deletedCart;
 };
 
+
 const updateCart = async (id, cart) => {
   const updatedCart = cartModel.findByIdAndUpdate(id, cart);
-
   return updatedCart;
+
 };
 
 const getCartById = async (id) => {
-  const cart = await cartModel.findById(id);
+  if(id!=""){
+    const cart = await cartModel.findById(id);
+  if(cart!=null){
+    const cartJSON = cart.toJSON();
+  return cartJSON;
+  }
+  else{
+    console.log("id carrinho é nulo")
+  }
 
-  return cart;
-};
+  }
+  
+  else{
+    console.log("nao encontrado")
+  }
+  
+}
 
 export { createCart, deleteCart, updateCart, getCartById };

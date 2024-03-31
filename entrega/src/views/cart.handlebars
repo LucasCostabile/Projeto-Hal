@@ -1,0 +1,28 @@
+<h1> Carrinho</h1>
+<table class="table table-striped">
+     <thead>
+        <tr>
+           
+            <th>Item</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+                                   
+        </tr>
+    </thead>
+   
+    <tbody id="ler-produtos">
+        {{#each productFoundCart.productsCart}}
+        <tr>
+            <td>{{title}}</td>
+            <td>R$ {{price}}</td>
+            <td>{{stock}}</td>
+            <td> <button id="btn-remove-cartprod">Remover</button></td>
+            <td>{{thumbNail}}</td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<script src="/js/cart.js"></script>
+
+
+    
