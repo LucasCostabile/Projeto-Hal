@@ -6,16 +6,11 @@ const createProduct = async (product) => {
   return newProduct;
 };
 //Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
-const getProductsWithPaginate = async ({
-  limit = 10,
-  page = 1,
-  query = {},
-  sort = 1,
-
-}) => {
+const getProductsWithPaginate = async ({limit = 10, page = 1, query = {},sort = 1,}) => {
   //teste ok para ordenação
   sort = parseInt(sort);
-  let ord = sort = { price: sort };
+  
+  
 
   //usando o paginate para buscar os valores no MongoDB
   try {
@@ -24,7 +19,7 @@ const getProductsWithPaginate = async ({
     const products = await productModel.paginate(query, {
       page: page,
       limit: limit,
-      sort: ord,
+      sort: sort = { price: sort },
 
     });
 
@@ -56,8 +51,10 @@ const getAllProducts = async () => {
 };
 
 const getProductById = async (id) => {
-  const product = await productModel.findOne({ code: id });
+ 
+  const product = await productModel.findOne({ _id: id });
   const productJSON = product.toJSON();
+  
   return productJSON;
 };
 
