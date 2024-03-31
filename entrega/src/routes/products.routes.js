@@ -18,7 +18,6 @@ prodRouter.get("/", async (req, res) => {
   //pegando os valores dos paramentros do browser por query params
   const { limit, page, query, sort } = req.query;
 
-
   try {
 
     //Fazendo a chamada do Service de produtos enviando os valores da query como um objeto para facilitar definir valores por default
