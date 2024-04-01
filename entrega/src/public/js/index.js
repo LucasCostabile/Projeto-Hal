@@ -3,89 +3,90 @@ const selectPage = document.getElementById("select-page");
 const orderPrice = document.getElementById("order-products-price");
 let pageQueryValue = 1;
 
-
-if (sessionStorage.getItem('selectProduct')) {
-   selectProduct.value = sessionStorage.getItem('selectProduct');
+if (sessionStorage.getItem("selectProduct")) {
+  selectProduct.value = sessionStorage.getItem("selectProduct");
 }
 
-
 // limitar produtos por paginas
-selectProduct.addEventListener('change', async () => {
-   sessionStorage.setItem('selectProduct', selectProduct.value);
-   let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
-   const response = await fetch(url, {
-      method: 'get',
-      headers: {
-         'Content-Type': 'application/json',
-      }
-   });
+selectProduct.addEventListener("change", async () => {
+  sessionStorage.setItem("selectProduct", selectProduct.value);
+  let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+  const response = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-   if (response.ok) {
-      window.location.href = `/products?limit=${selectProduct.value}`
-
-
-   } else {
-      console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
-   }
-
-
+  if (response.ok) {
+    window.location.href = `/products?limit=${selectProduct.value}`;
+  } else {
+    console.error(
+      "Falha ao obter detalhes do produto. Status da resposta:",
+      response.status
+    );
+  }
 });
 
 //  função selecionar page para produtos
-selectPage.addEventListener('click', async (event) => {
-   if (event.target.tagName == "LI") {
-      pageQueryValue = event.target.getAttribute('value');
-      let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+selectPage.addEventListener("click", async (event) => {
+  if (event.target.tagName == "LI") {
+    pageQueryValue = event.target.getAttribute("value");
+    let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
 
+    const response = await fetch(url, {
+      method: "get",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-      const response = await fetch(url, {
-         method: 'get',
-         headers: {
-            'Content-Type': 'application/json',
-         }
-      });
-
-      if (response.ok) {
-         window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`
-
-      } else {
-         console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
-      }
-   }
+    if (response.ok) {
+      window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+    } else {
+      console.error(
+        "Falha ao obter detalhes do produto. Status da resposta:",
+        response.status
+      );
+    }
+  }
 });
 // ordenar produtos por preço  asc & desc  / obs: falta ajustar
-orderPrice.addEventListener('change', async () => {
-   sessionStorage.setItem('', selectProduct.value);
-   let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
-   const response = await fetch(url, {
-      method: 'get',
-      headers: {
-         'Content-Type': 'application/json',
-      }
-   });
+orderPrice.addEventListener("change", async () => {
+  sessionStorage.setItem("", selectProduct.value);
+  let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
+  const response = await fetch(url, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-   if (response.ok) {
-      window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`
-
-
-   } else {
-      console.error("Falha ao obter detalhes do produto. Status da resposta:", response.status);
-   }
-
-
+  if (response.ok) {
+    window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
+  } else {
+    console.error(
+      "Falha ao obter detalhes do produto. Status da resposta:",
+      response.status
+    );
+  }
 });
 
 // adiconar produtos ao carrinho buscando pelo id
 const handleAddCart = async (id) => {
-   const requestData = { id: id };
+  const requestData = { id: id };
 
-   const response = await fetch("/cart", {
-      method: 'post',
-      headers: {
-         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestData)
-   })
-   
+  const response = await fetch("/cart", {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(requestData),
+  });
 
-}
+  if (response) {
+    alert("Produto adicionado com sucesso!");
+  } else {
+    alert("Erro ao adicionar produto");
+  }
+};

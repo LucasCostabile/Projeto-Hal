@@ -1,8 +1,17 @@
-const btnRemoveProd=document.getElementById("btn-remove-cartprod");
-btnRemoveProd.addEventListener("click",async(event)=>{
+const btnRemoveProd = document.getElementById("btn-remove-cartprod");
+const id = document.getElementById("prodID").textContent;
 
-    if(event){
-        console.log("teste");
-    }
+btnRemoveProd.addEventListener("click", async (event) => {
+  try {
+    const deleteProduct = await fetch(`/cart/delete/${id}`, {
+      method: "delete",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-})
+    window.location.reload();
+  } catch (error) {
+    console.log(error);
+  }
+});
