@@ -1,3 +1,4 @@
+
 import { productModel } from "../DB/Mongo/models/productsModel.js";
 
 const createProduct = async (product) => {
@@ -6,12 +7,12 @@ const createProduct = async (product) => {
   return newProduct;
 };
 //Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
-const getProductsWithPaginate = async ({
-  limit = 10,
-  page = 1,
-  query = {},
+const getProductsWithPaginate = async ({limit = 10, page = 1, query = {},sort = 1,}) => {
   //teste ok para ordenação
-}) => {
+  sort = parseInt(sort);
+  
+  
+
   //usando o paginate para buscar os valores no MongoDB
   try {
     limit = parseInt(limit);
@@ -19,25 +20,19 @@ const getProductsWithPaginate = async ({
     const products = await productModel.paginate(query, {
       page: page,
       limit: limit,
+      sort: sort = { price: sort },
+
     });
 
-    //criando um objeto novo para a resposta como o exercicio pede.
+
     const productObj = {
       status: true,
       ...products,
     };
 
-    //let productObjDocs= productObj.docs.map((product) => product.toJSON()); // pegando o array de produtos para visualiazar no handlebars
-    // não sei se é necessario o metodo agregate  fiquei na duvida
-    /*
-productObjDocs = await productModel.aggregate([
- 
-  // { $sort:sort }, // Aplicando a ordenação : obs um erro acontece trazendo um item vazio
-  { $limit: limit }, // Limitando o número de documentos retornados por página
-]);
-*/
 
     return productObj;
+
   } catch (err) {
     console.log(err);
     return null;
@@ -45,19 +40,22 @@ productObjDocs = await productModel.aggregate([
 };
 
 const getAllProducts = async () => {
-  // teste para pesquisar
+  // teste para pesquisar 
   /*  
   let productsFound = await productModel.aggregate([
     {$match:{title:{$regex:"R"}}}
 ]);
 */
   //productsFound = productsFound.map((product) => product.toJSON());
+
   //return productsFound;
 };
 
 const getProductById = async (id) => {
-  const product = await productModel.findById(id);
+ 
+  const product = await productModel.findOne({ _id: id });
   const productJSON = product.toJSON();
+  
   return productJSON;
 };
 
