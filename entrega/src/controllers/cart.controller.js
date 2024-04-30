@@ -1,54 +1,49 @@
-import ManagerCart from "../DB/FileSystem/models/ManagerCarts.js";
-const cartManager = new ManagerCart();
+import {
+  createCart,
+  deleteCart,
+  getCartById,
+} from "../services/cart.service.js";
+import { getProductById, getAllProducts } from "../services/product.service.js";
 
-export const createCart = async (req, res) => {
-  const prod = req.body;
+const getById = async (req, res) => {
+  const { pid } = req.params;
+
   try {
-    cartManager.createCart(prod);
-    res.status(200).json("Produto adiconado ao carrinho");
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("Erro ao adicionar o produto!");
+    const productFoundCart = await getCartById(pid);
+    return res.render("cart", { productFoundCart });
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
   }
 };
 
-export const getById = async (req, res) => {
-  const id = req.params.cid;
+const getAllCart = async (req, res) => {
+  // busca idDo carrinho para verificar se ja existe
+  const idCart = "660ab69b5d6a7844ccc41542"; // nao encontrei um meio de fazer dinamico, sem ter um usuario para cada carrinho.
 
+  const idProduct = req.body.id;
   try {
-    const prods = await cartManager.getProductById(id);
-    if (!prods) {
-      return res.status(404).json("Produto não encontrado!!");
-    }
-    return res.status(200).json(prods.prod);
-  } catch (error) {
-    console.log(error);
-    return res.status(404).json("Erro ao encontrar o produto! verifique o id.");
+    const cartID = await getCartById(idCart);
+
+    const productFound = await getProductById(idProduct); //  pega product pelo front atravez do id
+    const cartCreated = await createCart(productFound, cartID); //envia para service para salvar no banco
+    console.log("produto no carrinho");
+    return cartCreated;
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
   }
 };
 
-export const addProductInCart = async (req, res) => {
-  const { cid, pid } = req.params;
-  const prods = req.body;
-
+const deletedCart = async (req, res) => {
+  const { cid } = req.params; // deletar produto tem que digitar o id produto na URL
   try {
-    cartManager.updateProds(cid, pid, prods);
-    res.status(200).json("Carrinho atualizado com sucesso!");
+    const deleteProductCart = await deleteCart(cid);
+    return res.render("cart", { deleteProductCart });
   } catch (error) {
     console.log(error);
-    res.status(500).json("erro interno!");
+    return res.render("404", { message: `Erro ${error}` });
   }
 };
 
-export const getAll = async (req, res) => {
-  const limit = req.query.limit;
-  try {
-    const produtos = await cartManager.readProductsFromFile(limit);
-    const products = { name: "Henrique" };
-    //res.render("index", products);
-    //res.status(200).json(produtos);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Erro ao consultar produtos." });
-  }
-};
+export { getById, getAllCart, deletedCart };
