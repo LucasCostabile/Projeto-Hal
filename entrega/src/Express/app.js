@@ -24,6 +24,7 @@ import http from "http";
 import prodRouter from "../routes/products.routes.js";
 import cartsRoutes from "../routes/carts.routes.js";
 import { populateRouter } from "../routes/populate.routes.js";
+import userRouter from "../routes/user.routes.js"
 
 //config dos caminhos
 const __filename = fileURLToPath(import.meta.url);
@@ -45,6 +46,7 @@ app.set("view engine", "handlebars");
 app.set("views", pathView);
 
 //config das rotas!
+app.use("/",userRouter);
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
