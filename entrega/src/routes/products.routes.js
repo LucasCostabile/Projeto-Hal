@@ -13,7 +13,7 @@ import {
 } from "../controllers/product.controller.js";
 
 prodRouter.get("/home", (req,res) => {
-  res.render("index")
+  res.render("index",{name: req.session.name })
 })
 prodRouter.get("/", getAllProducts);
 

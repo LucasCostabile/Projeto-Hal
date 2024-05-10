@@ -15,7 +15,8 @@ const loginUsuario = async(req, res) => {
     }
 
     req.session.user = user
-    return res.cookie("accessToken", req.user.token).redirect("/products/home")
+    return res.status(200).json(user)
+    //return res.cookie("accessToken", req.user.token).redirect("/products/home")
 }
 
 

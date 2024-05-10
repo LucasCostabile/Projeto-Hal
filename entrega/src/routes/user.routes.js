@@ -9,7 +9,7 @@ userRouter.get("/",(req,res)=> {
     res.render("login")
 })
 
-userRouter.post("/login", passport.authenticate("login", {failureRedirect: "/login" }) ,loginUsuario)
+userRouter.post("/login", passport.authenticate("login", {failureRedirect: "/login" }),loginUsuario)
 
 userRouter.post("/criaUsuario", createUser)
 
