@@ -12,6 +12,9 @@ import {
   getById,
 } from "../controllers/product.controller.js";
 
+prodRouter.get("/home", (req,res) => {
+  res.render("index")
+})
 prodRouter.get("/", getAllProducts);
 
 prodRouter.get("/:pid", getById);

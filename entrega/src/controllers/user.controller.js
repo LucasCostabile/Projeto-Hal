@@ -1,16 +1,21 @@
+
 import {userLogin,criar} from "../services/usuario.service.js"
 
 const loginUsuario = async(req, res) => {
-    const email = req.body.email;
-    const password = req.body.password;
-    
-    try {
-        const login  = await userLogin(email,password);        
-        
-    } catch (error) {
-        console.error(error);
-        res.render("404");
+    console.log("passei na validacao do passport")
+    if(!req.user){
+        return res.status(400).json({ status: "error" , message: "Unathorized"})
     }
+    
+    const user = {
+        name: req.user.name,
+        email: req.user.email,
+        role: req.user.role,
+        token: req.user.token
+    }
+
+    req.session.user = user
+    return res.cookie("accessToken", req.user.token).redirect("/products/home")
 }
 
 

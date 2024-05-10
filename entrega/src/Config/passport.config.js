@@ -1,6 +1,6 @@
 import passport from "passport"
 import passportLocal from "passport-local"
-import jwt, { Strategy } from "passport-jwt"
+import jwt from "passport-jwt"
 import { usuarioModel } from "../DB/Mongo/models/usuarioModel.js"
 import {validatePassword} from "../Utils/index.utils.js"
 import {generateToken} from "../Utils/jwt.utils.js"
@@ -31,21 +31,27 @@ const initializePassport = () => {
 
     passport.use("login",
         new passportLocal.Strategy(
-            {usernameField: "username"},
-            async (username,password,done) => {
+            {usernameField: "email"},
+            async (email,password,done) => {
                 try{
-                    const userFound = await usuarioModel.findOne({email: username});
+                    console.log("EMAIL DO LOGIN!!!!!",email);
+                    const userFound = await usuarioModel.findOne({email: email});
+                    console.log("/USER DO MONGO", userFound)
                     if(!userFound){
                         return done(null, false)
                     }
-                    const testPassword = validatePassword(password,userFound)
+                    const testPassword = await validatePassword(password,userFound)
+                    console.log("passei na validaçao de senha",testPassword);
                     if(testPassword){
                         let user = [userFound];
                         user = user.map(u => u.toJSON() )
                         console.log("user", user);
                         delete user[0].password;
+                        console.log("deu ruim aqui? ")
                         const accessToken = generateToken(user[0]);
+                        console.log("gerei o token!!", accessToken)
                         user[0].token = accessToken;
+
                         return done(null,user[0]);
                     }else{
                         return done(null,false)

@@ -12,7 +12,7 @@ async function hashPassword(password) {
 }
 
 async function validatePassword(password,user) {
-    const valid = bcrypt.compare(password,user.password);
+    const valid = bcrypt.compare(password,user.hashedPassword);
     return valid
 }
 

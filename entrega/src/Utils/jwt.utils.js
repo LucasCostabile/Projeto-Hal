@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken"
 const SECRET = process.env.SECRET;
 
 const generateToken = (user) => {
-    const token = jwt.sign(user,SECRET);
+    const token = jwt.sign(user,process.env.SECRET);
     return token;
 
 }
