@@ -7,7 +7,7 @@ import session from "express-session"
 
 //import do passport!!
 import passport from "passport";
-import {initializePassport} from "../Config/passport.config.js"
+import {initializePassport} from "../config/passport.config.js"
 
 //import do mongo-store
 import mongoStore from "connect-mongo"
@@ -31,6 +31,7 @@ import prodRouter from "../routes/products.routes.js";
 import cartsRoutes from "../routes/carts.routes.js";
 import { populateRouter } from "../routes/populate.routes.js";
 import userRouter from "../routes/user.routes.js"
+import cors from "cors";
 
 //config dos caminhos
 const __filename = fileURLToPath(import.meta.url);
@@ -42,6 +43,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser(process.env.SECRET))
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 //config da Seesion
 app.use(session({
@@ -76,6 +86,7 @@ app.use("/",userRouter);
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
+
 
 //config do socket io
 const server = http.createServer(app);

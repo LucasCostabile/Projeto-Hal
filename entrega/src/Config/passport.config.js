@@ -2,7 +2,7 @@ import passport from "passport"
 import passportLocal from "passport-local"
 import jwt from "passport-jwt"
 import { usuarioModel } from "../DB/Mongo/models/usuarioModel.js"
-import {validatePassword} from "../Utils/index.utils.js"
+import {validatePassword,hashPassword} from "../Utils/index.utils.js"
 import {generateToken} from "../Utils/jwt.utils.js"
 
 
@@ -64,6 +64,34 @@ const initializePassport = () => {
             }
         )
     )
+
+    passport.use("register",new passportLocal.Strategy({
+        passReqToCallback: true, usernameField: "email" },
+         async (req, userName, password, done) => {
+           const {name,email, role } = req.body;
+           try {
+             let user = await usuarioModel.findOne({ email: userName });
+             if (user) {
+    
+               return done(null, false);
+             }
+             const newPass = await hashPassword(password);
+             const novoUser = {
+               name,
+               email,
+               hashedPassword: newPass,
+               role,
+             };
+             let newUser = await usuarioModel.create(novoUser);
+             return done(null, newUser);
+           } catch (error) {
+             return done(`Erro ao obter user ${error}`);
+           }
+         }
+        )
+       )
+
+
 
 
     passport.serializeUser((user,done)=> done(null, user._id));

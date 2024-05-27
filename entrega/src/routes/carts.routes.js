@@ -2,16 +2,16 @@ import express from "express";
 
 import {
   getById,
-  getAllCart,
+  addProductCarts,
   deletedCart,
 } from "../controllers/cart.controller.js";
 
 const cartRoutes = express.Router();
 
-cartRoutes.get("/:pid", getById);
+cartRoutes.get("/", getById);
 
-cartRoutes.post("/", getAllCart);
+cartRoutes.post("/", addProductCarts);
 
-cartRoutes.delete("/delete/:cid", deletedCart);
+cartRoutes.delete("/delete/:cid", deletedCart); // carrinho sendo deletado apenas pelo thunderclient
 
 export default cartRoutes;

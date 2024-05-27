@@ -1,17 +1,20 @@
 import express from "express"
 import passport from "passport"
-import {createUser, loginUsuario} from "../controllers/user.controller.js"
+import {postCreatUser, loginUsuario, logoutUsuario,getAccess,controlRegister, getLogin} from "../controllers/user.controller.js"
+import { authCheck } from "../middleware/authCheck.js";
 
 const userRouter = express.Router();
 
 
-userRouter.get("/",(req,res)=> {
-    res.render("login")
-})
+userRouter.get("/",getAccess) 
+
+userRouter.get("/login",getLogin); 
+userRouter.get("/register",controlRegister);
+userRouter.get("/logout",logoutUsuario);
 
 userRouter.post("/login", passport.authenticate("login", {failureRedirect: "/login" }) ,loginUsuario)
 
-userRouter.post("/criaUsuario", createUser)
+userRouter.post("/register", postCreatUser);
 
 
 

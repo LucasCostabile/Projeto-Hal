@@ -3,6 +3,7 @@ const selectPage = document.getElementById("select-page");
 const orderPrice = document.getElementById("order-products-price");
 let pageQueryValue = 1;
 
+
 if (sessionStorage.getItem("selectProduct")) {
   selectProduct.value = sessionStorage.getItem("selectProduct");
 }
@@ -73,20 +74,6 @@ orderPrice.addEventListener("change", async () => {
 });
 
 // adiconar produtos ao carrinho buscando pelo id
-const handleAddCart = async (id) => {
-  const requestData = { id: id };
 
-  const response = await fetch("/cart", {
-    method: "post",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(requestData),
-  });
 
-  if (response) {
-    alert("Produto adicionado com sucesso!");
-  } else {
-    alert("Erro ao adicionar produto");
-  }
-};
+
