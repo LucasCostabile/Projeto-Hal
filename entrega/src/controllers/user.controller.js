@@ -1,5 +1,3 @@
-import { userLogin, criar } from "../services/usuario.service.js";
-
 import {createNewUser} from "../services/usuario.service.js"
 
 const getAccess= async(req, res,)=>{
@@ -53,9 +51,9 @@ const loginUsuario = async(req, res) => {
     return res.cookie("accessToken", req.user.token).redirect("/")
 }
 
-  return res.status(200).json(user);
+ 
   //return res.cookie("accessToken", req.user.token).redirect("/products/home")
-};
+
 
 
 const postCreatUser = async (req,res)=> {
