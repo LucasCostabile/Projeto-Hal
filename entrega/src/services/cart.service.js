@@ -1,6 +1,7 @@
 import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
 const createCart = async (cartData, id) => {
+  
   try {
     let cartExist = await cartModel.findOne({ _id: id });
     if (cartExist) {
@@ -14,11 +15,20 @@ const createCart = async (cartData, id) => {
   } catch (error) {
     console.log(error);
   }
+  
 };
 
-const deleteCart = async (id) => {
-  const deletedCart = await cartModel.deleteOne({ _id: id });
-  console.log("produto " + id + "deletado");
+const deleteCart = async (cid) => {
+  console.log(cid);
+  const deletedCart = await cartModel.deleteOne({ _id: cid });
+  if(deletedCart.deletedCount>0){
+    console.log("produto " + cid + "deletado");
+  }
+  else {
+    console.log("erro ao excluir produto do carrinho")
+  }
+  console.log(deletedCart);
+  
   return deletedCart;
 };
 
@@ -34,11 +44,18 @@ const getCartById = async (id) => {
       const cartJSON = cart.toJSON();
       return cartJSON;
     } else {
-      console.log("id carrinho é nulo");
+      console.log("Criando novo carrinho");
     }
   } else {
     console.log("nao encontrado");
   }
 };
 
-export { createCart, deleteCart, updateCart, getCartById };
+
+const getAllCarts= async()=>{
+  const cartAll= await cartModel.find();
+  console.log(cartAll);
+  return cartAll;
+
+}
+export { createCart, deleteCart, updateCart, getCartById,getAllCarts};

@@ -1,8 +1,6 @@
-body{
 
-  padding-top: 30px;
-}
 form {
+  display:block;
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
@@ -31,6 +29,28 @@ button[type="submit"] {
 br {
   display: none;
 }
+
+.form-register{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
+ 
+}
+.user-name{
+  color: white;
+   
+}
+#btn-register{
+  display: flex;
+  margin-top: 10px;
+  
+}
+.user-cart{
+  display: flex;
+  gap:150px;
+  margin-right: 50px;
+}
+
 /* Estilos para o contêiner de produtos */
 #prodsList {
   font-family: Arial, sans-serif;

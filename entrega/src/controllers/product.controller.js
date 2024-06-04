@@ -5,6 +5,8 @@ import {
   getProductsWithPaginate,
 } from "../services/product.service.js";
 
+
+
 const getAllProducts = async (req, res) => {
   //pegando os valores dos paramentros do browser por query params
   const { limit, page, query, sort } = req.query;
@@ -16,8 +18,16 @@ const getAllProducts = async (req, res) => {
     let productObjDocs = prods.docs.map((product) => product.toJSON());
 
     //enviado os valores para a view do objeto prods com a propriedade docs e as page.
-    //res.render("productsForm", { prods: productObjDocs, page: prods.page });
-    res.status(200).json(productObjDocs);
+
+   
+      let userName = "";
+      let role="";
+        if (req.user) {
+          userName = req.user.name;
+          role= req.user.role;
+        }
+    res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, role});
+
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Erro ao listar os produtos!" });

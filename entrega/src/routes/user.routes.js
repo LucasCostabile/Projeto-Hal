@@ -1,6 +1,8 @@
-import express from "express";
-import passport from "passport";
-import { createUser, loginUsuario } from "../controllers/user.controller.js";
+
+import express from "express"
+import passport from "passport"
+import {postCreatUser, loginUsuario, logoutUsuario,getAccess,controlRegister, getLogin} from "../controllers/user.controller.js"
+import { authCheck } from "../middleware/authCheck.js";
 
 const userRouter = express.Router();
 
@@ -8,12 +10,17 @@ userRouter.get("/", (req, res) => {
   res.status(404).json({ message: "Nao passei pelo passport!!!" });
 });
 
-userRouter.post(
-  "/login",
-  passport.authenticate("login", { failureRedirect: "/" }),
-  loginUsuario
-);
+userRouter.get("/",getAccess) 
+
+userRouter.get("/login",getLogin); 
+userRouter.get("/register",controlRegister);
+userRouter.get("/logout",logoutUsuario);
+
 
 userRouter.post("/criaUsuario", createUser);
+
+userRouter.post("/register", postCreatUser);
+
+
 
 export default userRouter;
