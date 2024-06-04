@@ -18,32 +18,38 @@ const getCartAll= async()=>{
 }
 
 const getById = async (req, res) => {
-  const idCart = await  req.session.idCart;
+  const idCart = await  req.cookies.accessCart; // pega o id via cookie para buscar itens no carrinho e mostrar
+
+  let userName="";
+  if(req.user){
+   userName=req.user.name;
+  }
   console.log(idCart)
 
   try {
     const productFoundCart = await getCartById(idCart);
-    return res.render("cart", { productFoundCart });
+    return res.render("cart", { productFoundCart,userName:userName });
   } catch (err) {
     console.log(err);
     return res.render("404", { message: `Erro ${err}` });
   }
 };
-// alterado nome da função
+// alterado nome da função  
+// obs criar função para limpar os dados "cookies, session, etc..." depois de finalizar processo
 const addProductCarts = async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
-  const idCart = req.body.localCartID; // nao encontrei um meio de fazer dinamico, sem ter um usuario para cada carrinho.
-  const idProduct = req.body.id;
+  const idCart = req.body.localCartID; // pega idCart no locarlStorage
+  const idProduct = req.body.id; 
    
   
 
   try {
     const cartID = await getCartById(idCart);
     const productFound = await getProductById(idProduct); //  pega product pelo front atravez do id
-    
-    const cartCreated = await createCart(productFound, cartID); //envia para service para salvar no banco
-    let numbersItensCart=cartCreated.productsCart.length;
-    req.session.idCart=cartCreated._id;
+    const cartCreated = await createCart(productFound, cartID); 
+    let numbersItensCart=cartCreated.productsCart.length;  // numero de itens do carrinho selecionado
+    cartCreated._id;
+    res.cookie("accessCart",cartCreated._id);// salva id do carrinho via cookie
     res.json({cartID:cartCreated._id, NIC:numbersItensCart});
     
     return cartCreated;

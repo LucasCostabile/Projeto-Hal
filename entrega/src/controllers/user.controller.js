@@ -46,7 +46,8 @@ const loginUsuario = async(req, res) => {
         name: req.user.name,
         email: req.user.email,
         role: req.user.role,
-        token: req.user.token
+        token: req.user.token,
+        cartId: req.cookies.accessCart // idcart salvo junto na session
     }
     req.session.user = user
     return res.cookie("accessToken", req.user.token).redirect("/")
