@@ -6,10 +6,6 @@ import { authCheck } from "../middleware/authCheck.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/", (req, res) => {
-  res.status(404).json({ message: "Nao passei pelo passport!!!" });
-});
-
 userRouter.get("/",getAccess) 
 
 userRouter.get("/login",getLogin); 
@@ -17,7 +13,7 @@ userRouter.get("/register",controlRegister);
 userRouter.get("/logout",logoutUsuario);
 
 
-userRouter.post("/criaUsuario", createUser);
+userRouter.post("/login",passport.authenticate("login",{failureRedirect: "/login"}),loginUsuario );
 
 userRouter.post("/register", postCreatUser);
 
