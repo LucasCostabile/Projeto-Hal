@@ -1,16 +1,17 @@
 //import do express
 import express from "express";
 //import do cookie e session!!
-import cookieParser from "cookie-parser"
-import session from "express-session"
+import cookieParser from "cookie-parser";
+import session from "express-session";
 //import FileStore from ("session-file-store")(session)
 
 //import do passport!!
 import passport from "passport";
+
 import {initializePassport} from "../config/passport.config.js"
 
 //import do mongo-store
-import mongoStore from "connect-mongo"
+import mongoStore from "connect-mongo";
 
 //importando o template engine do handlebars
 import { engine } from "express-handlebars";
@@ -30,6 +31,7 @@ import http from "http";
 import prodRouter from "../routes/products.routes.js";
 import cartsRoutes from "../routes/carts.routes.js";
 import { populateRouter } from "../routes/populate.routes.js";
+
 import userRouter from "../routes/user.routes.js"
 import cors from "cors";
 
@@ -37,12 +39,19 @@ import cors from "cors";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-
 //config do express
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser(process.env.SECRET))
+app.use(cookieParser(process.env.SECRET));
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 
 app.use(
   cors({
@@ -54,22 +63,23 @@ app.use(
 );
 
 //config da Seesion
-app.use(session({
-  store: mongoStore.create({
-    mongoUrl: process.env.MONGO_URI,
-    mongoOptions: {},
-    ttl:600
-  }),
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  session({
+    store: mongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      mongoOptions: {},
+      ttl: 600,
+    }),
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 //inicializando o passport
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 //confif pasta public
 const staticPath = path.join(`${__dirname}/../public`);
@@ -82,7 +92,7 @@ app.set("view engine", "handlebars");
 app.set("views", pathView);
 
 //config das rotas!
-app.use("/",userRouter);
+app.use("/", userRouter);
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
@@ -95,7 +105,7 @@ const io = new socketIO(server);
 io.on("connection", (socket) => {
   console.log("Usuario conectado");
   socket.on("Message", (data) => console.log(data));
-  
+
   socket.emit(
     "event_individual",
     "esta mensagem deve ser recebida pelo socket"
@@ -114,5 +124,3 @@ mongoDBconect.on("error", (error) => {
 mongoDBconect.once("open", () => {
   console.log("Conexão feita com sucesso!!");
 });
-
-
