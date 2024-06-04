@@ -49,7 +49,8 @@ const loginUsuario = async(req, res) => {
         cartId: req.cookies.accessCart // idcart salvo junto na session
     }
     req.session.user = user
-    return res.cookie("accessToken", req.user.token).redirect("/")
+    return res.json(user)
+    //return res.cookie("accessToken", req.user.token).redirect("/")
 }
 
  
