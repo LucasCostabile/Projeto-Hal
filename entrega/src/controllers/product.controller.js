@@ -59,8 +59,11 @@ const creatProduct = async (req, res) => {
 
   try {
     const createdProduct = await createProduct(product);
+    
     console.log(createdProduct);
-    res.render("productsForm");
+    
+    return res.send(createdProduct).json();
+    //res.render("productsForm");
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao cadastrar o produto!" });
