@@ -49,7 +49,7 @@ const getById = async (req, res) => {
   
   } catch (err) {
     console.log(err);
-    res.status(404).json({ message: "Erro ao listar os produtos!" });
+    return res.status(404).json({ message: "Erro ao listar os produtos!" });
     //return res.render("404", { message: `Erro ${err}` });
   }
 };

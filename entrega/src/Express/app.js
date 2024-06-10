@@ -34,6 +34,7 @@ import { populateRouter } from "../routes/populate.routes.js";
 
 import userRouter from "../routes/user.routes.js"
 import cors from "cors";
+import { checkTokenReq } from "../middleware/tokenCheck.js";
 
 //config dos caminhos
 const __filename = fileURLToPath(import.meta.url);
@@ -93,6 +94,7 @@ app.set("views", pathView);
 
 //config das rotas!
 app.use("/", userRouter);
+app.use(checkTokenReq)
 app.use("/products", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
