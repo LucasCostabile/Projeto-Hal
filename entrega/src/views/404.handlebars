@@ -1,4 +1,31 @@
-<p>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
 
-  {{message}}
-</p>
+       {{#if user}}
+        <li class="nav-item">
+          <a class="nav-link" href="/logout">Logout</a>
+        </li>
+        {{else}}
+
+        <li class="nav-item">
+          <a class="nav-link" href="/login">Login</a>
+        </li>
+       {{/if}}
+        <li class="nav-item">
+          <a class="nav-link" href="/products">products</a>
+        </li>
+           
+      </ul>
+
+    </div>
+              <div class="user-cart">
+              <p class="user-name">Bem Vindo! {{userName}} </p>
+              </div>
+  </div>
+</nav>
+<h1> Sem produtos no carrinho</h1>

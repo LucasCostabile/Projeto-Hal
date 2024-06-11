@@ -1,3 +1,4 @@
+
 const btnRemoveProd = document.getElementById("btn-remove-cartprod");
 const id = document.getElementById("prodID").textContent;
 
