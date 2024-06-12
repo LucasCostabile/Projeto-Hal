@@ -41,24 +41,27 @@ const addProductCarts = async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
   const idCart = req.body.localCartID; // pega idCart no locarlStorage
   const idProduct = req.body.id;
-
+  
+  console.log(req.body);
+  
   try {
+    console.log(idCart)
     const cartID = await getCartById(idCart);
     const productFound = await getProductById(idProduct);
     const addNumberItens = { ...productFound, qtdItens: 1 }//  pega product pelo front atravez do id
     const cartCreated = await createCart(addNumberItens, cartID);
     let numbersItensCart = cartCreated.productsCart.length;  // numero de itens do carrinho selecionado
     cartCreated._id;
-    res.json({ cartID: cartCreated._id, NIC: numbersItensCart });
+    
+     return res.json({ cartID: cartCreated._id, NIC: numbersItensCart, cartCreated  });
 
-    return cartCreated;
+    //return cartCreated;
 
   } catch (err) {
     console.log(err);
     return res.render("404", { message: `Erro ${err}` });
   }
 };
-
 
 // deleta todo o carrinho pelo id
 const deletedCart = async (req, res) => {
