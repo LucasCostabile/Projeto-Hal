@@ -5,6 +5,7 @@ import {
   getAllCarts,
 
 } from "../services/cart.service.js";
+
 import { getProductById, getAllProducts } from "../services/product.service.js";
 
 const getCartAll = async () => {
@@ -40,7 +41,7 @@ const getById = async (req, res) => {
 const addProductCarts = async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
   const idCart = req.body.localCartID; // pega idCart no locarlStorage
-  const idProduct = req.body.id;
+  const idProduct = req.body._id;
   
   console.log(req.body);
   

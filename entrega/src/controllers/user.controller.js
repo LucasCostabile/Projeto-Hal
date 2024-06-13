@@ -41,14 +41,18 @@ const loginUsuario = async(req, res) => {
     if(!req.user){
         return res.status(400).json({ status: "error" , message: "Unathorized"})
     }
+    console.log(req.user)
      const user = {
+      id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         role: req.user.role,
         token: req.user.token,
-        cartId: req.cookies.accessCart // idcart salvo junto na session
+       // cartId: req.cookies.accessCart // idcart salvo junto na session
     }
     req.session.user = user
+
+    console.log(user)
     return res.json(user)
     //return res.cookie("accessToken", req.user.token).redirect("/")
 }

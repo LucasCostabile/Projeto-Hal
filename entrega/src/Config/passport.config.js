@@ -34,22 +34,22 @@ const initializePassport = () => {
             {usernameField: "email"},
             async (email,password,done) => {
                 try{
-                    console.log("EMAIL DO LOGIN!!!!!",email);
+                    
                     const userFound = await usuarioModel.findOne({email: email});
                     console.log("/USER DO MONGO", userFound)
                     if(!userFound){
                         return done(null, false)
                     }
                     const testPassword = await validatePassword(password,userFound)
-                    console.log("passei na validaçao de senha",testPassword);
+                    
                     if(testPassword){
                         let user = [userFound];
                         user = user.map(u => u.toJSON() )
                         console.log("user", user);
                         delete user[0].password;
-                        console.log("deu ruim aqui? ")
+                        
                         const accessToken = generateToken(user[0]);
-                        console.log("gerei o token!!", accessToken)
+                        //console.log("gerei o token!!", accessToken)
                         user[0].token = accessToken;
 
                         return done(null,user[0]);
