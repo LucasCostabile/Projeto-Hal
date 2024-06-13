@@ -1,22 +1,18 @@
 import {
   createCart,
   deleteCart,
-  getCartById,
   getAllCarts,
-
+  getCartByIdUser,
 } from "../services/cart.service.js";
 
 import { getProductById, getAllProducts } from "../services/product.service.js";
 
 const getCartAll = async () => {
-res.render("404")
+  res.render("404");
   try {
     const carts = await getAllCarts();
-
-  } catch (error) {
-
-  }
-}
+  } catch (error) {}
+};
 
 const getById = async (req, res) => {
   const idCart = await req.params.id;
@@ -26,7 +22,6 @@ const getById = async (req, res) => {
     userName = req.user.name;
   }
 
-
   try {
     const productFoundCart = await getCartById(idCart);
     return res.render("cart", { productFoundCart, userName: userName });
@@ -34,30 +29,38 @@ const getById = async (req, res) => {
     console.log(err);
     return res.render("404", { message: `Erro ${err}` });
   }
-
 };
-// alterado nome da função  
-// obs criar função para limpar os dados "cookies, session, etc..." depois de finalizar processo
+
 const addProductCarts = async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
-  const idCart = req.body.localCartID; // pega idCart no locarlStorage
-  const idProduct = req.body._id;
-  
-  console.log(req.body);
-  
+  const idUser = req.body.id;
+  const idProduct = req.body.productsCart;
+
+  console.log(req.body, "BODY COMPLETP!!!");
+  console.log(idProduct, "ID_PRODUTO ###########");
+  /* 
+  tentando pegar o ID do produto para adicionar no carrinho
+*/
   try {
-    console.log(idCart)
-    const cartID = await getCartById(idCart);
+    const cartID = await getCartByIdUser(idUser);
+    console.log(cartID, "&&&&&&&&&&");
+
     const productFound = await getProductById(idProduct);
-    const addNumberItens = { ...productFound, qtdItens: 1 }//  pega product pelo front atravez do id
+
+    console.log(idProduct, "***************");
+    const addNumberItens = { ...productFound, qtdItens: 1 }; //  pega product pelo front atravez do id
+
     const cartCreated = await createCart(addNumberItens, cartID);
-    let numbersItensCart = cartCreated.productsCart.length;  // numero de itens do carrinho selecionado
-    cartCreated._id;
-    
-     return res.json({ cartID: cartCreated._id, NIC: numbersItensCart, cartCreated  });
+
+    let numbersItensCart = cartCreated.productsCart.length; // numero de itens do carrinho selecionado
+
+    return res.json({
+      cartID: cartCreated._id,
+      NIC: numbersItensCart,
+      cartCreated,
+    });
 
     //return cartCreated;
-
   } catch (err) {
     console.log(err);
     return res.render("404", { message: `Erro ${err}` });
@@ -74,7 +77,6 @@ const deletedCart = async (req, res) => {
     console.log(error);
     return res.render("404", { message: `Erro ${error}` });
   }
-
 };
 
-export { getById, addProductCarts, deletedCart,getCartAll };
+export { getById, addProductCarts, deletedCart, getCartAll };
