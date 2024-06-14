@@ -32,15 +32,17 @@ const getById = async (req, res) => {
 };
 
 const addProductCarts = async (req, res) => {
+  console.log("entrei no addProducts no controller ")
+ 
   // busca idDo carrinho para verificar se ja existe
   const idUser = req.body.id;
-  const idProduct = req.body.productsCart;
+  console.log("ID_USER ############",idUser);
+ 
+  const idProduct = req.body.product._id
+  console.log("ID_PRODUTO %%%%%%%%%%%%%%%%%%%",idProduct);
 
   console.log(req.body, "BODY COMPLETP!!!");
-  console.log(idProduct, "ID_PRODUTO ###########");
-  /* 
-  tentando pegar o ID do produto para adicionar no carrinho
-*/
+  
   try {
     const cartID = await getCartByIdUser(idUser);
     console.log(cartID, "&&&&&&&&&&");
