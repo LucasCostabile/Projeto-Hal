@@ -5,7 +5,15 @@ const ticketColetions = "Ticket"
 
 
 const ticketSchema = new Schema({
-    id_user: String,
+    purchaser: String,
+    code: {
+        type: String,
+        unique: true
+    },
+    created_at: {
+        type: Date,
+        default: new Date()
+    },
     products: [],
     total: Number,
     
