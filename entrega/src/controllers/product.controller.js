@@ -3,6 +3,7 @@ import {
   createProduct,
   getProductById,
   getProductsWithPaginate,
+  updatedProduct,
 } from "../services/product.service.js";
 
 
@@ -49,11 +50,32 @@ const creatProduct = async (req, res) => {
   try {
     const createdProduct = await createProduct(product);
     console.log(createdProduct);
-    res.render("productsForm");
+    res.redirect("/api/products");
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao cadastrar o produto!" });
   }
 };
 
-export { getAllProducts, getById, creatProduct };
+
+const upDateProduct= async(req,res)=>{
+  const { pid } = req.params;
+  console.log(pid);
+  try {
+    const productFound = await getProductById(pid);
+
+    return res.render("update", { productFound });
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
+  }
+/*
+  console.log(pid);
+  const products=req.body;
+  const productsUpdate= await updatedProduct(pid,products);
+*/
+  res.render("update",{produts: productsUpdate})
+
+}
+
+export { getAllProducts, getById, creatProduct,upDateProduct };

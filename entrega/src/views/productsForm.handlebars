@@ -17,7 +17,7 @@
         </li>
        {{/if}}
         <li class="nav-item">
-          <a class="nav-link active" href="/products">products</a>
+          <a class="nav-link active" href="/api/products">products</a>
         </li>
 
       </ul>
@@ -30,7 +30,7 @@
   </div>
 </nav>
 {{#if role}}
-<form action="/products" method="post">
+<form action="/api/products" method="post">
   <label for="code">codígo:</label>
   <input type="text" name="code" id="code" />
   <br />
@@ -51,7 +51,7 @@
   <br />
   <br />
   <button type="submit">Enviar</button>
-</form>
+  </form>
 {{/if}}
 
 
@@ -91,10 +91,11 @@
     <p class="card-text">{{description}}</p>
     <p class="card-text"> R$:{{price}}</p>
     <p>Disponível: {{stock}}</p>
-  
+     
       
 
     <button id="productID" onclick="handleAddCart('{{_id}}')" class="btn btn-secondary btnAddCart">Adicionar ao Carrinho</button>
+     <button class="btnUpdate" data-id="{{_id}}" >Editar produto</button>
   </div>
 
   {{/each}}
@@ -102,11 +103,13 @@
   <div>
     <div class="card-body">
       <img src="" class="" alt="imagem product">
-      <h5 class="card-title">{{productFound.protitle}}</h5>
+      <h5 class="card-title">{{productFound.title}}</h5>
       <p class="card-text">{{productFound.description}}</p>
       <p class="card-text"> R$:{{productFound.price}}</p>
       <p class="card-text"> code: {{productFound.code}}</p>
       <a href="#" class="btn btn-secondary">Adicionar ao Carrinho</a>
+     
+
     </div>
 
   </div>

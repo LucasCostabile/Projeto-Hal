@@ -6,6 +6,7 @@ const createProduct = async (product) => {
 
   return newProduct;
 };
+
 //Buscando os valores no mongoDB com o mongoosePaginate pasando os valores de limit page query e sort
 const getProductsWithPaginate = async ({limit = 10, page = 1, query = {},sort = 1,}) => {
   //teste ok para ordenação

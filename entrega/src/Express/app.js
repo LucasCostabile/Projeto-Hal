@@ -83,7 +83,7 @@ app.set("views", pathView);
 
 //config das rotas!
 app.use("/",userRouter);
-app.use("/products", prodRouter);
+app.use("/api", prodRouter);
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
 
