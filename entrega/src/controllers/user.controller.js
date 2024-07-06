@@ -5,10 +5,14 @@ const getAccess= async(req, res,)=>{
 
     try {
         let userName = "";
+        let isAdm="";
         if (req.user) {
           userName = req.user.name;
+          if(req.user.role==="admin"){
+            isAdm=req.user.role;
+          }
         }
-      await  res.render("home", { user: req.user, userName});
+      await  res.render("home", { user: req.user, userName,isAdm: isAdm});
     
       } catch (error) {
         console.log(error);
@@ -60,7 +64,8 @@ const postCreatUser = async (req,res)=> {
     if (!userCreated){
         return res.render("404")
     }
-    return res.status(200).json({message: "OK!!!"})
+    //return res.status(200).json({message: "OK!!!"})
+    res.redirect("/api/products");
 }
 
 const logoutUsuario= async(req,res)=>{

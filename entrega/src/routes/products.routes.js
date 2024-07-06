@@ -11,7 +11,8 @@ import {
   creatProduct,
   getAllProducts,
   getById,
-  upDateProduct
+  upDateProduct,
+  editProduct
 } from "../controllers/product.controller.js";
 import { authToken } from "../Utils/jwt.utils.js";
 
@@ -27,7 +28,8 @@ prodRouter.get("/products/:pid", getById);
 
 prodRouter.post("/products", productValidation, creatProduct);
 
-prodRouter.get("/prod/:id",upDateProduct);
+prodRouter.get("/products/edit/:id",editProduct);
+prodRouter.put("/products/edit/:id",upDateProduct);
 
 prodRouter.delete("/:id");
 

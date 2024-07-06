@@ -3,36 +3,6 @@ const selectPage = document.getElementById("select-page");
 const orderPrice = document.getElementById("order-products-price");
 let pageQueryValue = 1;
 
-const editButtons = document.querySelectorAll('.btnUpdate');
-editButtons.forEach(button => {
-  
-    button.addEventListener('click', async () => {
-      console.log("chamou")
-      const productId = button.getAttribute('data-id');
-      await editaProduto(productId);
-      console.log('productId', productId);
-      window.location.href = `/api/prod/${productId}`;
-    });
-  });
-
-  async function editaProduto(id) {
-    try {
-     
-    
-      const response = await fetch(`/api/products/${id}`, {
-        method: 'put',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({id})
-      });
-    } catch (error) {
-      console.error('Erro na solicitação de exclusão:', error);
-      // Exibir mensagem de erro ou realizar outra ação apropriada
-    }
-  }
-
-
 if (sessionStorage.getItem("selectProduct")) {
   selectProduct.value = sessionStorage.getItem("selectProduct");
 }

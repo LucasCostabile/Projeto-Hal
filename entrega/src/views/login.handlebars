@@ -7,14 +7,16 @@
         </li>
 
        
+       {{#if user}}
         <li class="nav-item">
           <a class="nav-link" href="/logout">Logout</a>
         </li>
-        
+        {{else}}
 
         <li class="nav-item">
-          <a class="nav-link active" href="/login">Login</a>
+          <a class="nav-link" href="/login">Login</a>
         </li>
+       {{/if}}
        
         <li class="nav-item">
           <a class="nav-link" href="/api/products">products</a>
