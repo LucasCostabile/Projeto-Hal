@@ -17,7 +17,7 @@ import {
 import { authToken } from "../Utils/jwt.utils.js";
 
 prodRouter.get("/home", (req,res) => {
-  res.render("index")
+  res.render("index",{name: req.session.name })
 })
 
 

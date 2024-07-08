@@ -13,12 +13,14 @@ const getAllProducts = async (req, res) => {
   const { limit, page, query, sort } = req.query;
 
   try {
+    //console.log("Entrei no GetALL");
+    
     //Fazendo a chamada do Service de produtos enviando os valores da query como um objeto para facilitar definir valores por default
     const prods = await getProductsWithPaginate({ limit, page, query, sort });
     let productObjDocs = prods.docs.map((product) => product.toJSON());
 
     //enviado os valores para a view do objeto prods com a propriedade docs e as page.
-   
+
       let userName = "";
       let role="";
       let isAdm="";
@@ -29,22 +31,35 @@ const getAllProducts = async (req, res) => {
           isAdm=role;
          }
         }
-    res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, isAdm: isAdm});
+
+    //res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, isAdm: isAdm});
+
+        res.json({productObjDocs,userName,role});
+    
+
+
   } catch (error) {
     console.log(error);
-    res.render("404", { message: "Erro ao listar os produtos!" });
+    res.status(404).json({ message: "Erro ao listar os produtos!" });
+    //res.render("404", { message: "Erro ao listar os produtos!" });
   }
 };
 
 const getById = async (req, res) => {
   const { pid } = req.params;
   try {
+    console.log("Entrei no getById!!!!!");
+    
     const productFound = await getProductById(pid);
-
-    return res.render("productsForm", { productFound });
+    
+    return res.status(200).json(productFound);
+  
+    //return res.render("productsForm", { productFound });
+  
   } catch (err) {
     console.log(err);
-    return res.render("404", { message: `Erro ${err}` });
+    return res.status(404).json({ message: "Erro ao listar os produtos!" });
+    //return res.render("404", { message: `Erro ${err}` });
   }
 };
 
@@ -53,8 +68,15 @@ const creatProduct = async (req, res) => {
 
   try {
     const createdProduct = await createProduct(product);
+    
     console.log(createdProduct);
-    res.redirect("/api/products");
+
+   // res.redirect("/api/products");
+
+    
+    return res.send(createdProduct).json();
+    //res.render("productsForm");
+
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao cadastrar o produto!" });

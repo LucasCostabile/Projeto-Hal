@@ -1,4 +1,3 @@
-
 import {createNewUser} from "../services/usuario.service.js"
 
 const getAccess= async(req, res,)=>{
@@ -54,8 +53,13 @@ const loginUsuario = async(req, res) => {
         cartId: req.cookies.accessCart // idcart salvo junto na session
     }
     req.session.user = user
-    return res.cookie("accessToken", req.user.token).redirect("/")
+    return res.json(user)
+    //return res.cookie("accessToken", req.user.token).redirect("/")
 }
+
+ 
+  //return res.cookie("accessToken", req.user.token).redirect("/products/home")
+
 
 
 const postCreatUser = async (req,res)=> {
@@ -78,3 +82,4 @@ const logoutUsuario= async(req,res)=>{
 }
 
 export {loginUsuario, postCreatUser,logoutUsuario,getAccess,controlRegister,getLogin};
+
