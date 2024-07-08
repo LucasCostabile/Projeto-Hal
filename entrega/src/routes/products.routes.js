@@ -11,6 +11,8 @@ import {
   creatProduct,
   getAllProducts,
   getById,
+  upDateProduct,
+  editProduct
 } from "../controllers/product.controller.js";
 import { authToken } from "../Utils/jwt.utils.js";
 
@@ -20,13 +22,14 @@ prodRouter.get("/home", (req,res) => {
 
 
 
-prodRouter.get("/", getAllProducts);
+prodRouter.get("/products", getAllProducts);
 
-prodRouter.get("/:pid", getById);
+prodRouter.get("/products/:pid", getById);
 
-prodRouter.post("/", productValidation, creatProduct);
+prodRouter.post("/products", productValidation, creatProduct);
 
-prodRouter.put("/:id");
+prodRouter.get("/products/edit/:id",editProduct);
+prodRouter.put("/products/edit/:id",upDateProduct);
 
 prodRouter.delete("/:id");
 

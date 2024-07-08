@@ -11,9 +11,6 @@ const cartRoutes = express.Router();
 
 cartRoutes.get("/:id", getById);
 cartRoutes.get("/null", getCartAll);
-
 cartRoutes.post("/", addProductCarts);
-
-cartRoutes.delete("/delete/:cid", deletedCart); // carrinho sendo deletado apenas pelo thunderclient
-
+cartRoutes.delete("/cart/:cid", deletedCart); 
 export default cartRoutes;

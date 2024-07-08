@@ -92,10 +92,12 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", pathView);
 
-//config das rotas!
-app.use("/", userRouter);
+//conf
+
+app.use("/",userRouter);
+app.use("/api", prodRouter)
 app.use(checkTokenReq)
-app.use("/products", prodRouter);
+
 app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
 
