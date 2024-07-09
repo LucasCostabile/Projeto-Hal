@@ -1,13 +1,14 @@
 import { cartModel } from "../DB/Mongo/models/cartModel.js";
 
 const createCart = async (cartData, id) => {
-
   try {
     let cartExist = await cartModel.findOne({ _id: id });
     if (cartExist) {
-      let checkProductExist = cartExist.productsCart.find(product => String(product._id) === String(cartData._id))
+      let checkProductExist = cartExist.productsCart.find(
+        (product) => String(product._id) === String(cartData._id)
+      );
       if (checkProductExist) {
-        console.log("o produto ja existe no carrinho , então somar qtd")
+        console.log("o produto ja existe no carrinho , então somar qtd");
         console.log(checkProductExist.qtdItens);
         checkProductExist.qtdItens += 1;
         console.log(checkProductExist.qtdItens);
@@ -15,24 +16,19 @@ const createCart = async (cartData, id) => {
           { _id: id, "productsCart._id": checkProductExist._id },
           { $set: { "productsCart.$.qtdItens": checkProductExist.qtdItens } }
         );
-      }
-
-      else {
+      } else {
         console.log("produto nao existe no carrinho, adcionar");
-        cartExist.productsCart.push(cartData); 
+        cartExist.productsCart.push(cartData);
         await cartExist.save();
       }
       return cartExist;
-
     } else {
       const newCart = await cartModel.create({ productsCart: cartData });
       return newCart;
-
     }
   } catch (error) {
     console.log(error);
   }
-
 };
 
 const deleteCart = async (cid) => {
@@ -40,9 +36,8 @@ const deleteCart = async (cid) => {
   const deletedCart = await cartModel.deleteOne({ _id: cid });
   if (deletedCart.deletedCount > 0) {
     console.log("produto " + cid + "deletado");
-  }
-  else {
-    console.log("erro ao excluir produto do carrinho")
+  } else {
+    console.log("erro ao excluir produto do carrinho");
   }
   console.log(deletedCart);
   return deletedCart;
@@ -53,27 +48,25 @@ const updateCart = async (id, cart) => {
   return updatedCart;
 };
 
-const getCartById = async (id) => {
+const getCartByIdUser = async (id) => {
   try {
-    if (id != ""|| id !=null) {
-      const cart = await cartModel.findById(id);
+    if (id != "" || id != null) {
+      const cart = await cartModel.findOne(id);
       if (cart != null) {
         const cartJSON = cart.toJSON();
         return cartJSON;
       } else {
         console.log("Criando novo carrinho");
       }
-    }     
+    }
   } catch (error) {
     console.log("id do carrinho é nulo ");
   }
- };
-
+};
 
 const getAllCarts = async () => {
   const cartAll = await cartModel.find();
   console.log(cartAll);
   return cartAll;
-
-}
-export { createCart, deleteCart, updateCart, getCartById, getAllCarts };
+};
+export { createCart, deleteCart, updateCart, getCartByIdUser, getAllCarts };
