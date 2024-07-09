@@ -32,7 +32,7 @@ const createCart = async (cartData, id) => {
 };
 
 const deleteCart = async (cid) => {
-  console.log(cid);
+ 
   const deletedCart = await cartModel.deleteOne({ _id: cid });
   if (deletedCart.deletedCount > 0) {
     console.log("produto " + cid + "deletado");

@@ -3,6 +3,7 @@ import {
   createProduct,
   getProductById,
   getProductsWithPaginate,
+  updatedProduct,
 } from "../services/product.service.js";
 
 
@@ -22,14 +23,19 @@ const getAllProducts = async (req, res) => {
 
       let userName = "";
       let role="";
-        if (req.user) {
+      let isAdm="";
+        
+      if (req.user) {
           userName = req.user.name;
           role= req.user.role;
+          if(role=="admin"){
+            isAdm=role;
+          }
         }
-        res.json({productObjDocs,userName,role});
-    //res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, role});
+          //res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, isAdm: isAdm});
 
-  } catch (error) {
+        res.json({productObjDocs,userName,role});
+      } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Erro ao listar os produtos!" });
     //res.render("404", { message: "Erro ao listar os produtos!" });
@@ -61,13 +67,45 @@ const creatProduct = async (req, res) => {
     const createdProduct = await createProduct(product);
     
     console.log(createdProduct);
+
+   // res.redirect("/api/products");
+
     
     return res.send(createdProduct).json();
     //res.render("productsForm");
+
   } catch (error) {
     console.log(error);
     res.render("404", { message: "Erro ao cadastrar o produto!" });
   }
 };
 
-export { getAllProducts, getById, creatProduct };
+
+const upDateProduct= async(req,res)=>{
+  const  pid  = req.params.id;
+  const products=req.body;
+ 
+  
+  try {
+    const productsUpdate= await updatedProduct(pid,products);
+    return res.send("");
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
+  }
+ 
+
+}
+
+const editProduct= async(req,res)=>{
+  const  pid  = req.params.id;
+  try {
+    const productFound = await getProductById(pid);
+   return res.render("update", {products: productFound });
+  } catch (err) {
+    console.log(err);
+    return res.render("404", { message: `Erro ${err}` });
+  }
+}
+
+export { getAllProducts, getById, creatProduct,upDateProduct,editProduct};

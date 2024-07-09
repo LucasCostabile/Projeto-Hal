@@ -3,7 +3,6 @@ const selectPage = document.getElementById("select-page");
 const orderPrice = document.getElementById("order-products-price");
 let pageQueryValue = 1;
 
-
 if (sessionStorage.getItem("selectProduct")) {
   selectProduct.value = sessionStorage.getItem("selectProduct");
 }
@@ -11,7 +10,7 @@ if (sessionStorage.getItem("selectProduct")) {
 // limitar produtos por paginas
 selectProduct.addEventListener("change", async () => {
   sessionStorage.setItem("selectProduct", selectProduct.value);
-  let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+  let url = `/api/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
   const response = await fetch(url, {
     method: "get",
     headers: {
@@ -20,7 +19,7 @@ selectProduct.addEventListener("change", async () => {
   });
 
   if (response.ok) {
-    window.location.href = `/products?limit=${selectProduct.value}`;
+    window.location.href = `/api/products?limit=${selectProduct.value}`;
   } else {
     console.error(
       "Falha ao obter detalhes do produto. Status da resposta:",
@@ -33,7 +32,7 @@ selectProduct.addEventListener("change", async () => {
 selectPage.addEventListener("click", async (event) => {
   if (event.target.tagName == "LI") {
     pageQueryValue = event.target.getAttribute("value");
-    let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+    let url = `/api/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
 
     const response = await fetch(url, {
       method: "get",
@@ -43,7 +42,7 @@ selectPage.addEventListener("click", async (event) => {
     });
 
     if (response.ok) {
-      window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
+      window.location.href = `/api/products?limit=${selectProduct.value}&page=${pageQueryValue}`;
     } else {
       console.error(
         "Falha ao obter detalhes do produto. Status da resposta:",
@@ -55,7 +54,7 @@ selectPage.addEventListener("click", async (event) => {
 // ordenar produtos por preço  asc & desc  / obs: falta ajustar
 orderPrice.addEventListener("change", async () => {
   sessionStorage.setItem("", selectProduct.value);
-  let url = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
+  let url = `/api/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
   const response = await fetch(url, {
     method: "get",
     headers: {
@@ -64,7 +63,7 @@ orderPrice.addEventListener("change", async () => {
   });
 
   if (response.ok) {
-    window.location.href = `/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
+    window.location.href = `/api/products?limit=${selectProduct.value}&page=${pageQueryValue}&sort=${orderPrice.value}`;
   } else {
     console.error(
       "Falha ao obter detalhes do produto. Status da resposta:",

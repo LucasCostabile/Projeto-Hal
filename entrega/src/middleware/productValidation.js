@@ -12,7 +12,10 @@ const productValidation = (req, res, next) => {
     console.log("Produto com informaçoes faltando!");
     res.render("404", { message: "Produto com informaçoes faltando!" });
   }
-  next();
+  else{
+    next();
+  }
+ 
 };
 
 export { productValidation };

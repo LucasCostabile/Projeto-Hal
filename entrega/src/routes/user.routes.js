@@ -11,10 +11,7 @@ userRouter.get("/",getAccess)
 userRouter.get("/login",getLogin); 
 userRouter.get("/register",controlRegister);
 userRouter.get("/logout",logoutUsuario);
-
-
 userRouter.post("/login",passport.authenticate("login",{failureRedirect: "/login"}),loginUsuario );
-
 userRouter.post("/register", postCreatUser);
 
 

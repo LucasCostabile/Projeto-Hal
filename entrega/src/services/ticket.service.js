@@ -1,4 +1,6 @@
-import {ticketModel} from "../DB/Mongo/models/tickerModel.js"
+
+import {ticketModel} from "../DB/Mongo/models/ticketModel.js"
+
 
 const createNewTcket = async (ticket) => {
 

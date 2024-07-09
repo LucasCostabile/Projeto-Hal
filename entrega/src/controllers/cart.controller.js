@@ -71,11 +71,13 @@ const addProductCarts = async (req, res) => {
 
 // deleta todo o carrinho pelo id
 const deletedCart = async (req, res) => {
-  const { cid } = req.params; // deletar o carrinho tem que digitar o id produto na URL
+  const  {cid}  = req.params; 
+ 
   try {
     const deleteProductCart = await deleteCart(cid);
-    return res.render("cart", { deleteProductCart });
-  } catch (error) {
+    console.log(deleteProductCart);
+    return res.json(deleteProductCart);
+   } catch (error) {
     console.log(error);
     return res.render("404", { message: `Erro ${error}` });
   }
