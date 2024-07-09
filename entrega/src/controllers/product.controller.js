@@ -24,21 +24,18 @@ const getAllProducts = async (req, res) => {
       let userName = "";
       let role="";
       let isAdm="";
-        if (req.user) {
+        
+      if (req.user) {
           userName = req.user.name;
           role= req.user.role;
-         if(role=="admin"){
-          isAdm=role;
-         }
+          if(role=="admin"){
+            isAdm=role;
+          }
         }
-
-    //res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, isAdm: isAdm});
+          //res.render("productsForm", { prods: productObjDocs, page: prods.page,userName, isAdm: isAdm});
 
         res.json({productObjDocs,userName,role});
-    
-
-
-  } catch (error) {
+      } catch (error) {
     console.log(error);
     res.status(404).json({ message: "Erro ao listar os produtos!" });
     //res.render("404", { message: "Erro ao listar os produtos!" });

@@ -20,8 +20,6 @@ prodRouter.get("/home", (req,res) => {
   res.render("index",{name: req.session.name })
 })
 
-
-
 prodRouter.get("/products", getAllProducts);
 
 prodRouter.get("/products/:pid", getById);
@@ -29,6 +27,7 @@ prodRouter.get("/products/:pid", getById);
 prodRouter.post("/products", productValidation, creatProduct);
 
 prodRouter.get("/products/edit/:id",editProduct);
+
 prodRouter.put("/products/edit/:id",upDateProduct);
 
 prodRouter.delete("/:id");

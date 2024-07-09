@@ -35,6 +35,8 @@ import { populateRouter } from "../routes/populate.routes.js";
 import userRouter from "../routes/user.routes.js"
 import cors from "cors";
 import { checkTokenReq } from "../middleware/tokenCheck.js";
+import ticketRoutes from "../routes/ticket.routes.js";
+
 
 //config dos caminhos
 const __filename = fileURLToPath(import.meta.url);
@@ -93,13 +95,12 @@ app.set("view engine", "handlebars");
 app.set("views", pathView);
 
 //conf
-
 app.use("/",userRouter);
-app.use("/api", prodRouter)
-app.use(checkTokenReq)
-
-app.use("/cart", cartsRoutes);
 app.use("/populate", populateRouter);
+app.use("/api", prodRouter)
+app.use("/cart", cartsRoutes);
+app.use("/ticket",ticketRoutes)
+app.use(checkTokenReq)
 
 
 //config do socket io
