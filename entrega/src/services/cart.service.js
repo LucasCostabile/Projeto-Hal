@@ -56,7 +56,7 @@ const updateCart = async (id, cart) => {
 const getCartById = async (id) => {
   try {
     if (id != ""|| id !=null) {
-      const cart = await cartModel.findById(id);
+      const cart = await cartModel.findOne(id)
       if (cart != null) {
         const cartJSON = cart.toJSON();
         return cartJSON;

@@ -56,14 +56,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
 
 //config da Seesion
 app.use(
@@ -105,17 +97,30 @@ app.use(checkTokenReq)
 
 //config do socket io
 const server = http.createServer(app);
-const io = new socketIO(server);
+const io = new socketIO(server,{cors: {
+  origin: "*", 
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true, 
+}});
 
 io.on("connection", (socket) => {
   console.log("Usuario conectado");
-  socket.on("Message", (data) => console.log(data));
+  socket.on("connection",
+     (data) =>{console.log(data)
+      switch (data){
+        case "ola": return socket.emit("connection",[`Olá,bem vindo ao chat! Como posso te ajudar? Digite 1 para informações sobre pedidos ou 2 para outras informações`])
+        case "1": return socket.emit("connection",["Seu pedido está em preparação!"])
+        case "2": return socket.emit("connection",["Entre em contato com o número 0800 123!"])
+        default: return socket.emit("connection",[`Olá, como posso te ajudar? Digite 1
+           para informações sobre pedidos ou 2 para outras informações`])
+      }
+      
+     } 
+     
+);
 
-  socket.emit(
-    "event_individual",
-    "esta mensagem deve ser recebida pelo socket"
-  );
-  socket.broadcast.emit("hello", "world");
+ 
 });
 
 //export do server com o express e socket juntos.

@@ -39,13 +39,16 @@ const getById = async (req, res) => {
 // obs criar função para limpar os dados "cookies, session, etc..." depois de finalizar processo
 const addProductCarts = async (req, res) => {
   // busca idDo carrinho para verificar se ja existe
-  const idCart = req.body.localCartID; // pega idCart no locarlStorage
-  const idProduct = req.body.id;
+  const idUser = req.body.id; // pega idCart no locarlStorage
+  const idProduct = req.body.product._id;
+  const qtdItens = req.body.product.quantity
+
+  console.log(idUser, idProduct,qtdItens)
 
   try {
-    const cartID = await getCartById(idCart);
-    const productFound = await getProductById(idProduct);
-    const addNumberItens = { ...productFound, qtdItens: 1 }//  pega product pelo front atravez do id
+    const cartID = await getCartById(idUser);
+    //const productFound = await getProductById(idProduct);
+    //const addNumberItens = { ...productFound, qtdItens: 1 }//  pega product pelo front atravez do id
     const cartCreated = await createCart(addNumberItens, cartID);
     let numbersItensCart = cartCreated.productsCart.length;  // numero de itens do carrinho selecionado
     cartCreated._id;
@@ -57,6 +60,9 @@ const addProductCarts = async (req, res) => {
     console.log(err);
     return res.render("404", { message: `Erro ${err}` });
   }
+    
+
+   
 };
 
 

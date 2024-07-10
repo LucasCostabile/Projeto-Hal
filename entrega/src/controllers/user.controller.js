@@ -41,11 +41,12 @@ const controlRegister= async(req,res)=>{
 
 
 const loginUsuario = async(req, res) => {
-    console.log("passei na validacao do passport")
+    
     if(!req.user){
         return res.status(400).json({ status: "error" , message: "Unathorized"})
     }
      const user = {
+      id: req.user._id,
         name: req.user.name,
         email: req.user.email,
         role: req.user.role,

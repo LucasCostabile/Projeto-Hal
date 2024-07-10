@@ -4,8 +4,12 @@ const cartCollection = "cart";
 
 const cartSchema = new mongoose.Schema({
 
-  productsCart: [],
-
+  products: [],
+  id_user: {
+    type: String,
+    unique: true
+  }
+  
 });
 
 export const cartModel = mongoose.model(cartCollection, cartSchema);
