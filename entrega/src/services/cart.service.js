@@ -53,6 +53,28 @@ const updateCart = async (id, cart) => {
   return updatedCart;
 };
 
+const updateProdCart = async (idCart, idProd) => {
+  
+  let cartExist = await cartModel.findOne({ _id: idCart });
+    if (cartExist) {
+      let checkProductExist = cartExist.productsCart.find(product => String(product._id) === String(idProd))
+      
+      if (checkProductExist) {
+        
+        console.log(checkProductExist.qtdItens);
+        
+        checkProductExist.qtdItens += 1;
+        console.log(checkProductExist.qtdItens);
+        await cartModel.updateOne(
+          { _id: id, "productsCart._id": checkProductExist._id },
+          { $set: { "productsCart.$.qtdItens": checkProductExist.qtdItens } }
+        );
+      }else {
+        throw new Error("Carrinho não existe!")
+      }
+    }
+}
+
 const getCartById = async (id) => {
   try {
     if (id != ""|| id !=null) {
@@ -76,4 +98,4 @@ const getAllCarts = async () => {
   return cartAll;
 
 }
-export { createCart, deleteCart, updateCart, getCartById, getAllCarts };
+export { createCart, deleteCart, updateCart, getCartById, getAllCarts, updateProdCart };
