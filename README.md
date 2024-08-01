@@ -32,6 +32,8 @@ npm run dev
 
 ## Route
 - rota de produtos http://localhost:8080/api/products
+
+  
 ![ProductRoute](https://github.com/user-attachments/assets/24df7260-e147-4471-ac32-d986348afcc0)
 
 - rota de carrinho de compras http://localhost:8080/carts
@@ -40,6 +42,8 @@ npm run dev
  ![CartRoute](https://github.com/user-attachments/assets/7a5ae5c6-6a30-4b87-958e-b45523b67cb1)
 
 - rota de usuarios http://localhost:3000/
+
+  
 ![UserRoute](https://github.com/user-attachments/assets/80e9f745-99f8-4692-981a-0699e41e04f2)
 
 
